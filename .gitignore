@@ -1,0 +1,12 @@
+# CLion
+/.idea
+/cmake-build*
+
+#Visual Studio
+/.vs
+/out*
+/CMakeSettings.json
+/enc-temp-folder
+
+# Visual Studio Code
+/.vscode
