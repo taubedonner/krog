@@ -38,4 +38,6 @@ namespace kr {
         ImGuiLayer m_ImGuiLayer;
     };
 
+	Application* CreateApp();
+
 } // kr

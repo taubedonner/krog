@@ -2,13 +2,25 @@
 // Created by Nikita Zarudniy on 06/29/2023.
 //
 
-#include <krog/application.h>
+#include <krog/entry.h>
+#include <krog/ui/layer.h>
 #include <krog/common.h>
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
-  auto app = kr::Application();
-  app.Run();
-  KR_INFO("d");
+#include <imgui.h>
 
-  return 0;
+class TestLayer : public kr::Layer {
+ public:
+  TestLayer() : kr::Layer("Test Layer") {}
+
+ private:
+  void OnUiUpdate() override {
+	ImGui::ShowDemoWindow();
+  }
+};
+
+kr::Application *kr::CreateApp() {
+  auto app = new kr::Application();
+  app->AttachLayer(std::move(std::make_shared<TestLayer>()));
+  return app;
 }
+
