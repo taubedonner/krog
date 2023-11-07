@@ -15,7 +15,7 @@ target_compile_definitions(krog_static PRIVATE KROG_EXPORT)
 target_include_directories(krog_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 set_target_properties(krog_static PROPERTIES OUTPUT_NAME "libkrog")
 
-configure_file(${CMAKE_SOURCE_DIR}/cmake/includes/kr_appname.h.in ${CMAKE_CURRENT_BINARY_DIR}/generated/kr_appname.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/includes/kr_appname.h.in ${CMAKE_CURRENT_BINARY_DIR}/generated/kr_appname.h)
 target_include_directories(krog_static PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/generated)
 
 target_sources(krog_static PRIVATE
