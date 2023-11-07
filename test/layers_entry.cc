@@ -6,7 +6,7 @@
 #include <krog/ui/layer.h>
 #include <krog/common.h>
 
-#include <imgui.h>
+#include <implot.h>
 
 class TestLayer : public kr::Layer {
  public:
@@ -14,7 +14,7 @@ class TestLayer : public kr::Layer {
 
  private:
   void OnUiUpdate() override {
-	ImGui::ShowDemoWindow();
+    ImPlot::ShowDemoWindow();
   }
 };
 

@@ -49,14 +49,14 @@ CPMAddPackage(
         DOWNLOAD_ONLY True
 )
 
-add_library(imgui_static STATIC)
-target_include_directories(imgui_static
+add_library(imgui_object OBJECT)
+target_include_directories(imgui_object
         PUBLIC
         ${imgui_SOURCE_DIR}
         ${imgui_SOURCE_DIR}/backends
         PUBLIC
         ${imgui_SOURCE_DIR}/misc/cpp)
-target_sources(imgui_static
+target_sources(imgui_object
         PRIVATE
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui_demo.cpp
@@ -69,20 +69,24 @@ target_sources(imgui_static
         PRIVATE
         ${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp)
 
-target_include_directories(imgui_static
+target_include_directories(imgui_object
         PUBLIC
         ${implot_SOURCE_DIR})
-target_sources(imgui_static
+target_sources(imgui_object
         PRIVATE
         ${implot_SOURCE_DIR}/implot.cpp
         ${implot_SOURCE_DIR}/implot_items.cpp
         ${implot_SOURCE_DIR}/implot_demo.cpp)
 
-target_link_libraries(imgui_static PRIVATE SDL3::SDL3)
+target_link_libraries(imgui_object PRIVATE SDL3::SDL3)
+target_compile_definitions(imgui_object PUBLIC IMGUI_DEFINE_MATH_OPERATORS)
 
-target_compile_definitions(imgui_static PUBLIC IMGUI_DEFINE_MATH_OPERATORS)
+if (MSVC)
+    target_compile_options(imgui_object PRIVATE /wd4005)
+else ()
+    target_compile_options(imgui_object PRIVATE -Wno-macro-redefined)
+endif ()
 
-add_library(ImGui::ImGui ALIAS imgui_static)
+add_library(ImGui::ImGui ALIAS imgui_object)
 
 add_executable(binary_to_compressed ${imgui_SOURCE_DIR}/misc/fonts/binary_to_compressed_c.cpp)
-
