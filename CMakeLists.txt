@@ -32,4 +32,7 @@ include(cmake/dependencies.cmake)
 
 add_subdirectory(lib)
 add_subdirectory(src)
-add_subdirectory(test)
+
+if (KR_BUILD_TESTS)
+    add_subdirectory(test)
+endif ()
