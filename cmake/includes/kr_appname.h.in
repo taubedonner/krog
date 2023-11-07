@@ -1,0 +1,3 @@
+#pragma once
+
+#define KR_APP_NAME "@KR_APP_NAME@"

@@ -2,7 +2,7 @@
 // Created by Nikita Zarudniy on 06/29/2023.
 //
 
-#include "krog/export.h"
+
 
 #include "krog/util/threadwrapper.h"
 #include "krog/renderer/image.h"
@@ -17,9 +17,9 @@ namespace kr {
 
     using StreamListenerCallback = void(const std::string&, const std::shared_ptr<gl::Image2D>&);
 
-    class KROG_API CaptureListener;
+    class  CaptureListener;
 
-    class KROG_API Capture {
+    class  Capture {
     public:
         using Id = std::string;
 
@@ -79,7 +79,7 @@ namespace kr {
         CallbackList m_StreamListeners;
     };
 
-    class KROG_API CaptureListener {
+    class  CaptureListener {
     public:
         virtual ~CaptureListener() = 0;
 

@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 #include <glad/glad.h>
 
 namespace kr::gl {
 
-    class KROG_API Texture2D {
+    class  Texture2D {
     public:
 
         Texture2D() : Texture2D(nullptr, 1, 1, GL_RGBA32F, GL_RGBA, GL_UNSIGNED_BYTE) {};

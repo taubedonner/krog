@@ -2,7 +2,7 @@
 // Created by Nikita Zarudniy on 06/29/2023.
 //
 
-#include "krog/export.h"
+
 #include "formats.h"
 #include "image.h"
 
@@ -10,7 +10,7 @@
 
 namespace kr::gl {
 
-class KROG_API ImageStream2D {
+class  ImageStream2D {
  public:
   explicit ImageStream2D();
 

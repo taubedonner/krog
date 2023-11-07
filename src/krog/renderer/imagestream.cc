@@ -8,9 +8,9 @@
 
 namespace kr::gl {
 
-KROG_API ImageStream2D::ImageStream2D() = default;
+ ImageStream2D::ImageStream2D() = default;
 
-KROG_API void ImageStream2D::Init(const std::shared_ptr <Image2D> &image) {
+ void ImageStream2D::Init(const std::shared_ptr <Image2D> &image) {
   if (!image) {
 	return;
   }
@@ -52,11 +52,11 @@ KROG_API void ImageStream2D::Init(const std::shared_ptr <Image2D> &image) {
   glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 }
 
-KROG_API ImageStream2D::~ImageStream2D() {
+ ImageStream2D::~ImageStream2D() {
   Free();
 }
 
-KROG_API void ImageStream2D::UpdateTexture(const std::shared_ptr <Image2D> &image) {
+ void ImageStream2D::UpdateTexture(const std::shared_ptr <Image2D> &image) {
   if (!image) {
 	return;
   }
@@ -87,7 +87,7 @@ KROG_API void ImageStream2D::UpdateTexture(const std::shared_ptr <Image2D> &imag
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-KROG_API void ImageStream2D::Free() {
+ void ImageStream2D::Free() {
   glDeleteTextures(1, &textureId_);
   glDeleteBuffers(1, &pboId_);
 }

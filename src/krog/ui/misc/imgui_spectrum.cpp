@@ -18,12 +18,12 @@ namespace ImGui {
         static Props props;
         static ImFont* fonts[2];
 
-		KROG_API bool operator==(ImVec4& a, ImVec4& b) {
+		 bool operator==(ImVec4& a, ImVec4& b) {
             return (ColorConvertFloat4ToU32(a) & ~IM_COL32_A_MASK) == (ColorConvertFloat4ToU32(b) & ~IM_COL32_A_MASK);
         }
 
         // This came from imgui_demo.cpp and adapted for Adobe Spectrum color palette (currently dark-only)
-		KROG_API void ShowStyleEditor(bool* p_open) {
+		 void ShowStyleEditor(bool* p_open) {
             if (ImGui::Begin("Spectrum Color Editor", p_open)) {
                 ImGuiStyle& style = ImGui::GetStyle();
                 static ImGuiStyle ref_saved_style = style;
@@ -127,7 +127,7 @@ namespace ImGui {
             }
         }
 
-		KROG_API void Init(float fontSize) {
+		 void Init(float fontSize) {
             auto& io = ImGui::GetIO();
             auto& style = ImGui::GetStyle();
 
@@ -187,7 +187,7 @@ namespace ImGui {
                     iconRanges);*/
         }
 
-		KROG_API void StyleColorsDark() {
+		 void StyleColorsDark() {
             using namespace Colors;
 
             auto colors = ImGui::GetStyle().Colors;
@@ -253,7 +253,7 @@ namespace ImGui {
             props.IsDark = true;
         }
 
-		KROG_API void StyleColorsLight() {
+		 void StyleColorsLight() {
             using namespace Colors;
 
             auto colors = ImGui::GetStyle().Colors;
@@ -319,18 +319,18 @@ namespace ImGui {
             props.IsDark = false;
         }
 
-		KROG_API const Props& GetProps() {
+		 const Props& GetProps() {
             return props;
         }
 
-		KROG_API ImFont* GetFont(Font font) {
+		 ImFont* GetFont(Font font) {
             auto idx = static_cast<int>(font);
             return fonts[idx];
         }
 
     } // ImGui::Spectrum
 
-	KROG_API bool ColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, const ImVec2& size) {
+	 bool ColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, const ImVec2& size) {
         //ImGuiStyle& style = GetStyle();
         auto bgHoveredColor = ImVec4{ bgColor.x - 0.1f, bgColor.y - 0.1f, bgColor.z - 0.1f, bgColor.w };
         auto bgActiveColor = ImVec4{ bgColor.x - 0.2f, bgColor.y - 0.2f, bgColor.z - 0.2f, bgColor.w };
@@ -345,7 +345,7 @@ namespace ImGui {
         return pressed;
     }
 
-	KROG_API bool DisablingButton(const char* label, bool disabled, const ImVec2& size) {
+	 bool DisablingButton(const char* label, bool disabled, const ImVec2& size) {
         ImGuiStyle& style = GetStyle();
 
         if (disabled) {
@@ -366,7 +366,7 @@ namespace ImGui {
         return pressed;
     }
 
-	KROG_API bool DisablingColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, bool disabled, const ImVec2& size) {
+	 bool DisablingColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, bool disabled, const ImVec2& size) {
         ImGuiStyle& style = GetStyle();
         auto bgHoveredColor = ImVec4{ bgColor.x - 0.1f, bgColor.y - 0.1f, bgColor.z - 0.1f, bgColor.w };
         auto bgActiveColor = ImVec4{ bgColor.x - 0.2f, bgColor.y - 0.2f, bgColor.z - 0.2f, bgColor.w };
@@ -387,7 +387,7 @@ namespace ImGui {
         return pressed;
     }
 
-  	KROG_API void SeparatorV() {
+  	 void SeparatorV() {
         ImGuiContext& g = *GImGui;
         ImGuiWindow* window = g.CurrentWindow;
         if (window->SkipItems) return;
@@ -399,7 +399,7 @@ namespace ImGui {
 
 namespace ImPlot {
 
-	KROG_API void PlotTextColored(const ImVec4& color, const char* text, double x, double y, const ImVec2& pixel_offset, ImPlotTextFlags flags) {
+	 void PlotTextColored(const ImVec4& color, const char* text, double x, double y, const ImVec2& pixel_offset, ImPlotTextFlags flags) {
         ImPlot::PushStyleColor(ImPlotCol_InlayText, color);
         PlotText(text, x, y, pixel_offset, flags);
         ImPlot:PopStyleColor();

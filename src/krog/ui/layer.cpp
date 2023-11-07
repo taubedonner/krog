@@ -8,11 +8,11 @@
 
 namespace kr {
 
-    KROG_API Layer::Layer(std::string name) : m_LayerName(std::move(name)) {}
+     Layer::Layer(std::string name) : m_LayerName(std::move(name)) {}
 
-    KROG_API Layer::~Layer() = default;
+     Layer::~Layer() = default;
 
-    KROG_API std::string Layer::GetName() {
+     std::string Layer::GetName() {
         return m_LayerName;
     }
 

@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 #include <yaml-cpp/yaml.h>
 
 namespace kr {
 
-    class KROG_API PersistentConfig {
+    class  PersistentConfig {
     public:
         static bool Init(const std::string& path);
 

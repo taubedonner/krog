@@ -10,34 +10,34 @@ namespace kr {
 std::mutex EventBus::initMutex_;
 EventBus *EventBus::instance_ = nullptr;
 
-KROG_API EventBus::EventBus() {
+ EventBus::EventBus() {
   isRunning_ = true;
   implementation_ = std::make_unique<BusImpl>();
   eventLoopRoutine_.Attach(std::thread{&EventBus::EventLoop, this});
 }
 
-KROG_API EventBus::~EventBus() {
+ EventBus::~EventBus() {
   isRunning_ = false;
   loopCondition_.notify_one();
   implementation_->process();
   eventLoopRoutine_.Detach();
 }
 
-KROG_API void EventBus::Enqueue(const Event::Ptr &event) {
+ void EventBus::Enqueue(const Event::Ptr &event) {
   if (isRunning_) {
 	implementation_->enqueue(event);
   }
   loopCondition_.notify_one();
 }
 
-KROG_API void EventBus::Enqueue(Event::Hash hash, const Event::Ptr &event) {
+ void EventBus::Enqueue(Event::Hash hash, const Event::Ptr &event) {
   if (isRunning_) {
 	implementation_->enqueue(hash, event);
   }
   loopCondition_.notify_one();
 }
 
-KROG_API void EventBus::EventLoop() {
+ void EventBus::EventLoop() {
   while (isRunning_) {
 	std::unique_lock <std::mutex> lock(loopMutex_);
 	loopCondition_.wait(lock, [this] {
@@ -48,7 +48,7 @@ KROG_API void EventBus::EventLoop() {
   }
 }
 
-KROG_API EventBus &EventBus::GetInstance() {
+ EventBus &EventBus::GetInstance() {
   if (!instance_) {
 	std::lock_guard <std::mutex> lock(initMutex_);
 	if (!instance_) {

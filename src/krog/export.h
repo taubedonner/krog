@@ -6,7 +6,7 @@
 #define KROG_SRC_KROG_EXPORT_H_
 
 #ifdef _WIN32
-#ifdef  KROG_EXPORT
+#ifdef KROG_EXPORT
 #define KROG_API __declspec(dllexport)
 #else
 #define KROG_API __declspec(dllimport)

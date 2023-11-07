@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 #include <glad/glad.h>
 
 namespace kr::gl {
@@ -24,10 +24,10 @@ enum class PixelFormat {
   Count
 };
 
-KROG_API GLenum ConvertPixelType(PixelType type);
+ GLenum ConvertPixelType(PixelType type);
 
-KROG_API GLenum ConvertPixelFormat(PixelFormat format);
+ GLenum ConvertPixelFormat(PixelFormat format);
 
-KROG_API GLint ConvertInternalFormat(PixelType type, PixelFormat format);
+ GLint ConvertInternalFormat(PixelType type, PixelFormat format);
 
 } // gl

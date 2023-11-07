@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 #include "formats.h"
 
 namespace kr::gl {
 
-class KROG_API Image2D {
+class  Image2D {
  public:
   Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType, const uint8_t *data, size_t size);
 

@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 namespace kr {
 
-    class KROG_API ThreadWrapper {
+    class  ThreadWrapper {
     public:
         ThreadWrapper() = default;
         ~ThreadWrapper();

@@ -15,7 +15,7 @@
 
 namespace kr {
 
-	KROG_API void ImGuiLayer::OnAttach() {
+	 void ImGuiLayer::OnAttach() {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImPlot::CreateContext();
@@ -43,14 +43,14 @@ namespace kr {
         ImGui_ImplOpenGL3_Init(glsl_version);
     }
 
-    KROG_API void ImGuiLayer::OnDetach() {
+     void ImGuiLayer::OnDetach() {
         ImPlot::DestroyContext();
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplSDL3_Shutdown();
         ImGui::DestroyContext();
     }
 
-    KROG_API void ImGuiLayer::BeginUiUpdate() {
+     void ImGuiLayer::BeginUiUpdate() {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
@@ -58,11 +58,11 @@ namespace kr {
         //ImGui::Spectrum::ShowStyleEditor(nullptr);
     }
 
-    KROG_API void ImGuiLayer::EndUiUpdate() {
+     void ImGuiLayer::EndUiUpdate() {
         ImGui::Render();
     }
 
-    KROG_API void ImGuiLayer::OnWindowEvent(const SDL_Event* event) {
+     void ImGuiLayer::OnWindowEvent(const SDL_Event* event) {
         ImGui_ImplSDL3_ProcessEvent(event);
 
         if (event->type == SDL_EVENT_SYSTEM_THEME_CHANGED) {
@@ -76,7 +76,7 @@ namespace kr {
         }
     }
 
-    KROG_API void ImGuiLayer::OnUpdate() {
+     void ImGuiLayer::OnUpdate() {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {

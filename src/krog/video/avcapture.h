@@ -6,7 +6,7 @@
 
 #include "capture.h"
 
-#include "krog/export.h"
+
 
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -19,7 +19,7 @@ extern "C" {
 
 namespace kr {
 
-    class KROG_API AVCapture : public Capture {
+    class  AVCapture : public Capture {
     public:
         explicit AVCapture(std::string filename, bool repeat = true);
 
@@ -49,37 +49,37 @@ namespace kr {
         void CaptureWorker();
 
     private:
-        struct KROG_API AVFormatContextDeleter {
+        struct  AVFormatContextDeleter {
             void operator()(AVFormatContext* context) {
                 avformat_close_input(&context);
             }
         };
 
-        struct KROG_API AVCodecContextDeleter {
+        struct  AVCodecContextDeleter {
             void operator()(AVCodecContext* context) {
                 avcodec_free_context(&context);
             }
         };
 
-        struct KROG_API AVBufferRefDeleter {
+        struct  AVBufferRefDeleter {
             void operator()(AVBufferRef* ref) {
                 av_buffer_unref(&ref);
             }
         };
 
-        struct KROG_API AVFrameDeleter {
+        struct  AVFrameDeleter {
             void operator()(AVFrame* frame) {
                 av_frame_free(&frame);
             }
         };
 
-        struct KROG_API AVPacketDeleter {
+        struct  AVPacketDeleter {
             void operator()(AVPacket* packet) {
                 av_packet_unref(packet);
             }
         };
 
-        struct KROG_API SwsContextDeleter {
+        struct  SwsContextDeleter {
             void operator()(SwsContext* context) {
                 sws_freeContext(context);
             }

@@ -6,21 +6,21 @@
 
 namespace kr::gl {
 
-KROG_API PixelBufferObject::PixelBufferObject(GLsizeiptr size) : size_(size) {
+ PixelBufferObject::PixelBufferObject(GLsizeiptr size) : size_(size) {
   glGenBuffers(1, &bufferId_);
   glBindBuffer(GL_PIXEL_UNPACK_BUFFER, bufferId_);
   glBufferData(GL_PIXEL_UNPACK_BUFFER, size_, nullptr, GL_STREAM_DRAW);
 }
 
-KROG_API PixelBufferObject::~PixelBufferObject() { glDeleteBuffers(1, &bufferId_); }
+ PixelBufferObject::~PixelBufferObject() { glDeleteBuffers(1, &bufferId_); }
 
-KROG_API void PixelBufferObject::Bind() const {
+ void PixelBufferObject::Bind() const {
   glBindBuffer(GL_PIXEL_UNPACK_BUFFER, bufferId_);
 }
 
-KROG_API void PixelBufferObject::Unbind() { glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0); }
+ void PixelBufferObject::Unbind() { glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0); }
 
-KROG_API bool PixelBufferObject::UpdateData(const GLubyte *data, int bind) {
+ bool PixelBufferObject::UpdateData(const GLubyte *data, int bind) {
   if (bind > 0)
 	Bind();
 

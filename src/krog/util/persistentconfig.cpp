@@ -13,7 +13,7 @@ namespace kr {
     std::string PersistentConfig::s_Path;
 
 
-    KROG_API bool PersistentConfig::Init(const std::string& path) {
+     bool PersistentConfig::Init(const std::string& path) {
         s_Path = path;
 
         try {
@@ -28,7 +28,7 @@ namespace kr {
         return true;
     }
 
-    KROG_API bool PersistentConfig::Save() {
+     bool PersistentConfig::Save() {
         if (s_Path.empty()) {
             KR_ERROR("[PersistentConfig] Could not save configuration. Path is not set");
             return false;
@@ -40,7 +40,7 @@ namespace kr {
         return true;
     }
 
-    KROG_API YAML::Node& PersistentConfig::GetRoot() {
+     YAML::Node& PersistentConfig::GetRoot() {
         return s_Root;
     }
 

@@ -6,6 +6,6 @@
 
 namespace kr {
 
-KROG_API Event::~Event() = default;
+ Event::~Event() = default;
 
 }

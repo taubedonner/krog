@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 #include <implot.h>
 #include <imgui.h>
@@ -18,7 +18,7 @@ namespace ImGui {
             Large = 1
         };
 
-		KROG_API constexpr ImVec4 ColorConvertU32ToFloat4(ImU32 in) {
+		 constexpr ImVec4 ColorConvertU32ToFloat4(ImU32 in) {
             float s = 1.0f / 255.0f;
             return {
                 (float)((in >> IM_COL32_R_SHIFT) & 0xFF) * s,
@@ -46,7 +46,7 @@ namespace ImGui {
                 MAGENTA100, MAGENTA200, MAGENTA300, MAGENTA400, MAGENTA500, MAGENTA600, MAGENTA700, MAGENTA800, MAGENTA900, MAGENTA1000, MAGENTA1100, MAGENTA1200, MAGENTA1300, MAGENTA1400
             };
 
-            constexpr struct KROG_API Light {
+            constexpr struct  Light {
                 static constexpr std::array<std::pair<const char*, ImVec4>, 193> Values = { {
                     { "GRAY50", ColorConvertU32ToFloat4(IM_COL32(255, 255, 255, 255)) },
                     { "GRAY75", ColorConvertU32ToFloat4(IM_COL32(253, 253, 253, 255)) },
@@ -252,7 +252,7 @@ namespace ImGui {
                 }
             } Light;
 
-            constexpr struct KROG_API Darkest {
+            constexpr struct  Darkest {
                 static constexpr std::array<std::pair<const char*, ImVec4>, 193> Values = { {
                     { "GRAY50", ColorConvertU32ToFloat4(IM_COL32(0, 0, 0, 255)) },
                     { "GRAY75", ColorConvertU32ToFloat4(IM_COL32(14, 14, 14, 255)) },
@@ -461,7 +461,7 @@ namespace ImGui {
 
         }; // Colors
 
-        struct KROG_API Props {
+        struct  Props {
             bool IsDark = true;
             float FontSize = 0.0f;
             ImVec2 Padding = {};
@@ -475,32 +475,32 @@ namespace ImGui {
             }
         };
 
-		KROG_API void ShowStyleEditor(bool* p_open);
+		 void ShowStyleEditor(bool* p_open);
 
-		KROG_API void Init(float fontSize = 16);
+		 void Init(float fontSize = 16);
 
-		KROG_API void StyleColorsLight();
+		 void StyleColorsLight();
 
-		KROG_API void StyleColorsDark();
+		 void StyleColorsDark();
 
-		KROG_API const Props& GetProps();
+		 const Props& GetProps();
 
-		KROG_API ImFont* GetFont(Font font);
+		 ImFont* GetFont(Font font);
 
     } // ImGui::Spectrum
 
-    KROG_API bool ColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, const ImVec2& size);
+     bool ColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, const ImVec2& size);
 
-    KROG_API bool DisablingButton(const char* label, bool disabled = false, const ImVec2& size = {0, 0});
+     bool DisablingButton(const char* label, bool disabled = false, const ImVec2& size = {0, 0});
 
-    KROG_API bool DisablingColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, bool disabled = false, const ImVec2& size = {0, 0});
+     bool DisablingColoredButton(const char* label, const ImVec4& bgColor, const ImVec4& fgColor, bool disabled = false, const ImVec2& size = {0, 0});
 
-    KROG_API void SeparatorV();
+     void SeparatorV();
 
 } // ImGui
 
 namespace ImPlot {
 
-	KROG_API void PlotTextColored(const ImVec4& color, const char* text, double x, double y, const ImVec2& pixel_offset = {0, 0}, ImPlotTextFlags flags = 0);
+	 void PlotTextColored(const ImVec4& color, const char* text, double x, double y, const ImVec2& pixel_offset = {0, 0}, ImPlotTextFlags flags = 0);
 
 } // ImPlot

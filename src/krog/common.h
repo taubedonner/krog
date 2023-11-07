@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 #include <spdlog/spdlog.h>
 
 namespace kr {
@@ -12,7 +12,7 @@ namespace kr {
 #pragma pack(push, 1)
 
     template<typename T>
-    struct KROG_API Vec2 {
+    struct  Vec2 {
         T x;
         T y;
 
@@ -32,14 +32,14 @@ namespace kr {
 #pragma pack(pop)
 
 
-	KROG_API int inet_pton4(const char *src, unsigned char *dst);
+	 int inet_pton4(const char *src, unsigned char *dst);
 
 
-	KROG_API const std::shared_ptr<spdlog::logger>& GetLogger();
+	 const std::shared_ptr<spdlog::logger>& GetLogger();
 
     const std::shared_ptr<spdlog::logger>& GetCoreLogger();
 
-    class KROG_API FrameSynchronizer {
+    class  FrameSynchronizer {
     public:
         explicit FrameSynchronizer(double fps = 300.0) {
             SetFps(fps);

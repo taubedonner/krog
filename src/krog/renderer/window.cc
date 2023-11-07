@@ -25,7 +25,7 @@ void GLAPIENTRY MessageCallback([[maybe_unused]] GLenum source, GLenum type,
   }
 }
 
-KROG_API Window::Window(const WindowConfig &config) : windowConfig_(config), frameSynchronizer_(config.FpsLimit) {
+ Window::Window(const WindowConfig &config) : windowConfig_(config), frameSynchronizer_(config.FpsLimit) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMEPAD)!=0) {
 	KR_ERROR("SDL_Init(): {}", SDL_GetError());
 	std::exit(1);
@@ -71,12 +71,12 @@ KROG_API Window::Window(const WindowConfig &config) : windowConfig_(config), fra
   nativeWindow_ = window;
 }
 
-KROG_API Window::~Window() {
+ Window::~Window() {
   SDL_DestroyWindow(nativeWindow_);
   SDL_Quit();
 }
 
-KROG_API void Window::BeginUpdate() {
+ void Window::BeginUpdate() {
   SDL_Event event;
 
   frameSynchronizer_.BeginFrame();
@@ -107,16 +107,16 @@ KROG_API void Window::BeginUpdate() {
   }
 }
 
-KROG_API void Window::EndUpdate() {
+ void Window::EndUpdate() {
   SDL_GL_SwapWindow(nativeWindow_);
   frameSynchronizer_.EndFrameAndSleep();
 }
 
-KROG_API SDL_Window *Window::GetNativeWindow() {
+ SDL_Window *Window::GetNativeWindow() {
   return nativeWindow_;
 }
 
-KROG_API void Window::AppendListener(WindowEventListener *listener) {
+ void Window::AppendListener(WindowEventListener *listener) {
   if (!listener) {
 	return;
   }
@@ -125,20 +125,20 @@ KROG_API void Window::AppendListener(WindowEventListener *listener) {
   eventCallbackList_.append(KR_BIND_EXT_FN(listener, OnWindowEvent));
 }
 
-KROG_API int Window::GetWidth() const {
+ int Window::GetWidth() const {
   return windowConfig_.Size.x;
 }
 
-KROG_API int Window::GetHeight() const {
+ int Window::GetHeight() const {
   return windowConfig_.Size.y;
 }
 
-KROG_API void Window::SetFullScreen(bool set) {
+ void Window::SetFullScreen(bool set) {
   if (SDL_SetWindowFullscreen(nativeWindow_, (SDL_bool)set)==0) {
 	windowConfig_.IsFullscreen = set;
   }
 }
 
-KROG_API WindowEventListener::~WindowEventListener() = default;
+ WindowEventListener::~WindowEventListener() = default;
 
 } // kr

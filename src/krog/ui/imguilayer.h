@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 #include "layer.h"
 
@@ -12,7 +12,7 @@
 
 namespace kr {
 
-    class KROG_API ImGuiLayer : public Layer, public WindowEventListener {
+    class  ImGuiLayer : public Layer, public WindowEventListener {
     public:
         ImGuiLayer() : Layer("ImGui Layer") {}
 

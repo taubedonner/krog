@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 #include "event.h"
 
@@ -13,14 +13,14 @@
 
 namespace kr {
 
-class KROG_API WindowCloseEvent : public Event {
+class  WindowCloseEvent : public Event {
  public:
   using Ptr = std::shared_ptr<WindowCloseEvent>;
 
   explicit WindowCloseEvent() : Event() {}
 };
 
-class KROG_API WindowResizeEvent : public Event {
+class  WindowResizeEvent : public Event {
  public:
   using Ptr = std::shared_ptr<WindowResizeEvent>;
 
@@ -34,7 +34,7 @@ class KROG_API WindowResizeEvent : public Event {
   int width_, height_;
 };
 
-class KROG_API KeyPressEvent : public Event {
+class  KeyPressEvent : public Event {
  public:
   using Ptr = std::shared_ptr<WindowCloseEvent>;
 

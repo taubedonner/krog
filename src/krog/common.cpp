@@ -7,6 +7,8 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
 
+#include "kr_appname.h"
+
 #ifdef _WIN32
 #include <windows.h>
 
@@ -37,7 +39,7 @@ include <time.h>
 
 namespace kr {
 
-KROG_API int inet_pton4(const char *src, unsigned char *dst) {
+ int inet_pton4(const char *src, unsigned char *dst) {
   static const char digits[] = "0123456789";
   int saw_digit, octets, ch;
   unsigned char tmp[INADDRSZ], *tp;
@@ -87,16 +89,12 @@ static void SetupSinks() {
   if (s_Sinks.empty()) {
 	s_Sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
 	s_Sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("application.log", true));
-#ifdef NDEBUG
 	s_Sinks[0]->set_pattern("%^[%n] [%L %T PID:%P THR:%t] %v%$"); // stdout
-#else
-	s_Sinks[0]->set_pattern("%^[%n] [%L %T PID:%P THR:%t] %@: %v%$"); // verbose stdout
-#endif
 	s_Sinks[1]->set_pattern("[%n] [%L %T PID:%P THR:%t] %v"); // file
   }
 }
 
-KROG_API const std::shared_ptr<spdlog::logger> &GetLogger() {
+ const std::shared_ptr<spdlog::logger> &GetLogger() {
   if (!s_Logger) {
 	std::lock_guard<std::mutex> lock(s_InitMutex);
 	if (!s_Logger) {
@@ -106,7 +104,7 @@ KROG_API const std::shared_ptr<spdlog::logger> &GetLogger() {
 
 	  SetupSinks();
 
-	  s_Logger = std::make_shared<spdlog::logger>("App ", std::begin(s_Sinks), std::end(s_Sinks));
+	  s_Logger = std::make_shared<spdlog::logger>(KR_APP_NAME, std::begin(s_Sinks), std::end(s_Sinks));
 	  s_Logger->set_level(spdlog::level::trace);
 	  s_Logger->flush_on(spdlog::level::trace);
 	  spdlog::register_logger(s_Logger);
@@ -136,7 +134,7 @@ const std::shared_ptr<spdlog::logger> &GetCoreLogger() {
   return s_CoreLogger;
 }
 
-KROG_API void FrameSynchronizer::EndFrameAndSleep() {
+ void FrameSynchronizer::EndFrameAndSleep() {
   if (m_Disabled) return;
 
   static constexpr std::chrono::duration<double> minSleepDuration(0);
@@ -148,7 +146,7 @@ KROG_API void FrameSynchronizer::EndFrameAndSleep() {
   nanosleep(sleepTime);
 }
 
-KROG_API void FrameSynchronizer::SetFps(double fps) {
+ void FrameSynchronizer::SetFps(double fps) {
   if (fps <= 0.0) {
 	m_Disabled = true;
 	return;

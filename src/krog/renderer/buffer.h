@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 #include <glad/glad.h>
 
 namespace kr::gl {
 
-class KROG_API PixelBufferObject {
+class  PixelBufferObject {
  public:
   explicit PixelBufferObject(GLsizeiptr size);
 

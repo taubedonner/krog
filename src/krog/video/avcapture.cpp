@@ -10,30 +10,30 @@
 
 namespace kr {
 
-    KROG_API AVCapture::AVCapture(std::string filename, bool repeat)
+     AVCapture::AVCapture(std::string filename, bool repeat)
         : m_Filename(std::move(filename)), m_Repeat(repeat), m_PollingThread(std::make_unique<ThreadWrapper>()) {
         m_Id = std::format("V{:0>16X}", reinterpret_cast<ptrdiff_t>(this));
         m_Name = std::filesystem::path(m_Filename).filename().string();
     }
 
-    KROG_API AVCapture::~AVCapture() {
+     AVCapture::~AVCapture() {
         RemoveAllListeners();
         AVCapture::StopGrabbing();
     }
 
-    KROG_API bool AVCapture::IsAccessible() {
+     bool AVCapture::IsAccessible() {
         return true;
     }
 
-    KROG_API bool AVCapture::IsOpened() {
+     bool AVCapture::IsOpened() {
         return m_IsOpened;
     }
 
-    KROG_API bool AVCapture::IsGrabbing() {
+     bool AVCapture::IsGrabbing() {
         return m_IsGrabbing;
     }
 
-    KROG_API bool AVCapture::Open() {
+     bool AVCapture::Open() {
         KR_TRACE("Opening video from URL: \"{}\"", m_Filename);
 
         AVFormatContext* formatContext = nullptr;
@@ -122,7 +122,7 @@ namespace kr {
         return true;
     }
 
-    KROG_API bool AVCapture::Close() {
+     bool AVCapture::Close() {
         if (!m_IsOpened) {
             return true;
         }
@@ -140,7 +140,7 @@ namespace kr {
         return true;
     }
 
-    KROG_API bool AVCapture::StartGrabbing() {
+     bool AVCapture::StartGrabbing() {
         if (!IsOpened()) {
             if (!Open()) {
                 return false;
@@ -152,7 +152,7 @@ namespace kr {
         return true;
     }
 
-    KROG_API bool AVCapture::StopGrabbing() {
+     bool AVCapture::StopGrabbing() {
         if (!IsOpened()) {
             return true;
         }
@@ -162,21 +162,21 @@ namespace kr {
         return false;
     }
 
-    KROG_API void AVCapture::SetRepeat(bool repeat) {
+     void AVCapture::SetRepeat(bool repeat) {
         m_Repeat = repeat;
     }
 
-    KROG_API bool AVCapture::IsRepeat() const {
+     bool AVCapture::IsRepeat() const {
         return m_Repeat;
     }
 
-    KROG_API void AVCapture::RewindStream() {
+     void AVCapture::RewindStream() {
         auto stream = m_FormatContext->streams[m_StreamId];
         avio_seek(m_FormatContext->pb, 0, SEEK_SET);
         avformat_seek_file(m_FormatContext.get(), m_StreamId, 0, 0, stream->duration, 0);
     }
 
-    KROG_API void AVCapture::CaptureWorker() {
+     void AVCapture::CaptureWorker() {
         AVFrameDeleter frameDeleter;
         std::unique_ptr<AVPacket, AVPacketDeleter> packet(av_packet_alloc(), AVPacketDeleter{});
         auto swsContext = std::unique_ptr<SwsContext, SwsContextDeleter>(nullptr, SwsContextDeleter{});

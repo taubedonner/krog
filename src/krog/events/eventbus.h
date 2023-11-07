@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 #include "event.h"
 #include "krog/util/threadwrapper.h"
@@ -14,18 +14,18 @@
 
 namespace kr {
 
-class KROG_API EventBus {
+class  EventBus {
  public:
   using Ptr = std::shared_ptr<EventBus>;
 
-  struct KROG_API PriorityCompare {
+  struct  PriorityCompare {
 	template<typename T>
 	auto operator()(const T &a, const T &b) const -> bool {
 	  return std::get<0>(a.arguments)->GetPriority() > std::get<0>(b.arguments)->GetPriority();
 	}
   };
 
-  struct KROG_API EventPolicy {
+  struct  EventPolicy {
 	template<typename Item>
 	using QueueList = eventpp::OrderedQueueList<Item, PriorityCompare>;
 

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 #include "krog/common.h"
 
 #include <eventpp/utilities/scopedremover.h>
@@ -16,9 +16,9 @@
 
 namespace kr {
 
-class KROG_API WindowEventListener;
+class  WindowEventListener;
 
-struct KROG_API WindowConfig {
+struct  WindowConfig {
   std::string Title = "Application";
   glm::ivec2 Size = {1600, 900};
   int SwapInterval = 0;
@@ -26,7 +26,7 @@ struct KROG_API WindowConfig {
   double FpsLimit{300.0};
 };
 
-class KROG_API Window {
+class  Window {
  public:
   using WindowEventListenerCallback = void(const SDL_Event *event);
 
@@ -70,7 +70,7 @@ class KROG_API Window {
 
 };
 
-class KROG_API WindowEventListener {
+class  WindowEventListener {
  public:
   virtual ~WindowEventListener() = 0;
 

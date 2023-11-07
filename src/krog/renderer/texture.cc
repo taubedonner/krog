@@ -6,7 +6,7 @@
 
 namespace kr::gl {
 
-KROG_API Texture2D::Texture2D(const GLubyte *data, GLsizei width, GLsizei height, GLint internalFormat, GLenum pixelFormat, GLenum pixelType)
+ Texture2D::Texture2D(const GLubyte *data, GLsizei width, GLsizei height, GLint internalFormat, GLenum pixelFormat, GLenum pixelType)
 	: width_(width), height_(height), internalFormat_(internalFormat), pixelFormat_(pixelFormat), pixelType_(pixelType) {
   glGenTextures(1, &textureId_);
   glBindTexture(GL_TEXTURE_2D, textureId_);
@@ -18,19 +18,19 @@ KROG_API Texture2D::Texture2D(const GLubyte *data, GLsizei width, GLsizei height
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-KROG_API Texture2D::~Texture2D() {
+ Texture2D::~Texture2D() {
   glDeleteTextures(1, &textureId_);
 }
 
-KROG_API void Texture2D::Bind() const {
+ void Texture2D::Bind() const {
   glBindTexture(GL_TEXTURE_2D, textureId_);
 }
 
-KROG_API void Texture2D::Unbind() const {
+ void Texture2D::Unbind() const {
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-KROG_API void Texture2D::UpdateData(const GLubyte *data, int bind) const {
+ void Texture2D::UpdateData(const GLubyte *data, int bind) const {
   if (bind > 0) Bind();
   glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width_, height_, pixelFormat_, pixelType_, data);
   if (bind > 1) Unbind();

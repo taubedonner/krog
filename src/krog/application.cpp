@@ -11,8 +11,8 @@
 #include <glad/glad.h>
 
 namespace kr {
-    KROG_API Application::Application() {
-        WindowConfig windowConfig = {"KROG App"};
+     Application::Application(std::string appName) {
+        WindowConfig windowConfig = {std::move(appName)};
 
         PersistentConfig::Init("./config.yml");
 
@@ -39,7 +39,7 @@ namespace kr {
         m_Window->AppendListener(&m_ImGuiLayer);
     }
 
-    KROG_API void Application::Run() {
+     void Application::Run() {
         while (m_IsRunning) {
             m_Window->BeginUpdate();
             m_ImGuiLayer.BeginUiUpdate();
@@ -68,17 +68,17 @@ namespace kr {
         m_ImGuiLayer.OnDetach();
     }
 
-    KROG_API void Application::OnWindowCloseEvent(const WindowCloseEvent::Ptr&) {
+     void Application::OnWindowCloseEvent(const WindowCloseEvent::Ptr&) {
         m_IsRunning = false;
     }
 
-    KROG_API void Application::AttachLayer(const std::shared_ptr<Layer>& layer) {
+     void Application::AttachLayer(const std::shared_ptr<Layer>& layer) {
         KR_TRACE("Attaching layer \"{0}\" ({1})", layer->GetName(), fmt::ptr(layer.get()));
         m_Layers.push_back(layer);
         layer->OnAttachApp(this);
     }
 
-    KROG_API void Application::DetachLayer(const std::shared_ptr<Layer>& layer) {
+     void Application::DetachLayer(const std::shared_ptr<Layer>& layer) {
         auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
         if (it != m_Layers.end()) {
             KR_TRACE("Detaching layer \"{0}\" ({1})", layer->GetName(), fmt::ptr(layer.get()));
@@ -87,14 +87,14 @@ namespace kr {
         }
     }
 
-    KROG_API void Application::DetachAllLayers() {
+     void Application::DetachAllLayers() {
         for (const auto& layer : m_Layers) {
             KR_TRACE("Detaching layer \"{0}\" ({1})", layer->GetName(), fmt::ptr(layer.get()));
             layer->OnDetach();
         }
     }
 
-    KROG_API Application::~Application() {
+     Application::~Application() {
         auto& conf = PersistentConfig::GetRoot();
         auto appNode = conf["application"];
         appNode["fps_limit"] = m_Window->GetFpsLimit();

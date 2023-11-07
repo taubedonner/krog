@@ -8,7 +8,7 @@
 
 namespace kr::gl {
 
-KROG_API GLenum ConvertPixelType(PixelType type) {
+ GLenum ConvertPixelType(PixelType type) {
   switch (type) {
 	case PixelType::UnsignedChar: return GL_UNSIGNED_BYTE;
 	default: KR_WARN("Unknown pixel type \"{}\"", (int32_t)type);
@@ -16,7 +16,7 @@ KROG_API GLenum ConvertPixelType(PixelType type) {
   }
 }
 
-KROG_API GLenum ConvertPixelFormat(PixelFormat format) {
+ GLenum ConvertPixelFormat(PixelFormat format) {
   switch (format) {
 	case PixelFormat::Red: return GL_RED;
 	case PixelFormat::RGB: return GL_RGB;
@@ -26,7 +26,7 @@ KROG_API GLenum ConvertPixelFormat(PixelFormat format) {
   }
 }
 
-KROG_API GLint ConvertInternalFormat(PixelType type, PixelFormat format) {
+ GLint ConvertInternalFormat(PixelType type, PixelFormat format) {
   if (type==PixelType::UnsignedChar && format==PixelFormat::Red) return GL_R8;
   if (type==PixelType::UnsignedChar && format==PixelFormat::RGB) return GL_RGB8;
   if (type==PixelType::UnsignedChar && format==PixelFormat::BGR) return GL_RGB;

@@ -7,11 +7,11 @@
 
 namespace kr {
 
-    KROG_API Capture::~Capture() = default;
+     Capture::~Capture() = default;
 
-    KROG_API CaptureListener::~CaptureListener() = default;
+     CaptureListener::~CaptureListener() = default;
 
-    KROG_API void Capture::AppendListener(CaptureListener* listener) {
+     void Capture::AppendListener(CaptureListener* listener) {
         if (!listener) {
             return;
         }
@@ -20,7 +20,7 @@ namespace kr {
         m_StreamListeners.append(KR_BIND_EXT_FN(listener, OnNewFrame));
     }
 
-    KROG_API void Capture::RemoveAllListeners() {
+     void Capture::RemoveAllListeners() {
         m_StreamListeners.forEach([&](const CallbackList::Handle& handle, const CallbackList::Callback&) {
             m_StreamListeners.remove(handle);
         });

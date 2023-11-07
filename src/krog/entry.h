@@ -4,10 +4,9 @@
 
 #pragma once
 
-#include <SDL_main.h>
-
-#include "krog/export.h"
 #include "krog/application.h"
+
+extern kr::Application* kr::CreateApp();
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
   auto app = kr::CreateApp();

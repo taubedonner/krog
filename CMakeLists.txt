@@ -10,6 +10,7 @@ project(krog C CXX)
 
 option(KR_BUILD_TESTS "" ON)
 option(KR_USE_FFMPEG "Try to load FFMpeg to use it in kr::AVCapture" OFF)
+set(KR_APP_NAME "App" CACHE STRING "App name displayed in log")
 
 set(OUT_DIR_ ${CMAKE_BINARY_DIR}/out)
 

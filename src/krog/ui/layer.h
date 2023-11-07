@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 namespace kr {
 
-    class KROG_API Application;
+    class  Application;
 
-    class KROG_API Layer {
+    class  Layer {
     public:
         explicit Layer(std::string  name = "Unnamed Layer");
 

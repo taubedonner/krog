@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "krog/export.h"
+
 
 namespace kr {
 
-class KROG_API Event {
+class  Event {
  public:
   using Hash = std::size_t;
   using Ptr = std::shared_ptr<Event>;
