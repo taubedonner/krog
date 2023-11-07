@@ -4,8 +4,6 @@
 
 #pragma once
 
-
-
 #include "layer.h"
 
 #include "krog/renderer/window.h"

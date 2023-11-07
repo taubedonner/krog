@@ -41,14 +41,22 @@ CPMAddPackage(
         DOWNLOAD_ONLY True
 )
 
-add_library(imgui_object OBJECT)
-target_include_directories(imgui_object
+#### ImPlot ####
+CPMAddPackage(
+        NAME implot
+        GITHUB_REPOSITORY epezent/implot
+        VERSION 0.16
+        DOWNLOAD_ONLY True
+)
+
+add_library(imgui_static STATIC)
+target_include_directories(imgui_static
         PUBLIC
         ${imgui_SOURCE_DIR}
         ${imgui_SOURCE_DIR}/backends
         PUBLIC
         ${imgui_SOURCE_DIR}/misc/cpp)
-target_sources(imgui_object
+target_sources(imgui_static
         PRIVATE
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui_demo.cpp
@@ -61,33 +69,20 @@ target_sources(imgui_object
         PRIVATE
         ${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp)
 
-target_link_libraries(imgui_object PRIVATE SDL3::SDL3)
-
-target_compile_definitions(imgui_object PUBLIC IMGUI_DEFINE_MATH_OPERATORS)
-
-add_library(ImGui::ImGui ALIAS imgui_object)
-
-add_executable(binary_to_compressed ${imgui_SOURCE_DIR}/misc/fonts/binary_to_compressed_c.cpp)
-
-
-#### ImPlot ####
-CPMAddPackage(
-        NAME implot
-        GITHUB_REPOSITORY epezent/implot
-        VERSION 0.16
-        DOWNLOAD_ONLY True
-)
-
-add_library(implot_static STATIC)
-target_include_directories(implot_static
+target_include_directories(imgui_static
         PUBLIC
         ${implot_SOURCE_DIR})
-target_sources(implot_static
+target_sources(imgui_static
         PRIVATE
         ${implot_SOURCE_DIR}/implot.cpp
         ${implot_SOURCE_DIR}/implot_items.cpp
         ${implot_SOURCE_DIR}/implot_demo.cpp)
 
-target_link_libraries(implot_static PUBLIC ImGui::ImGui)
+target_link_libraries(imgui_static PRIVATE SDL3::SDL3)
 
-add_library(ImPlot::ImPlot ALIAS implot_static)
+target_compile_definitions(imgui_static PUBLIC IMGUI_DEFINE_MATH_OPERATORS)
+
+add_library(ImGui::ImGui ALIAS imgui_static)
+
+add_executable(binary_to_compressed ${imgui_SOURCE_DIR}/misc/fonts/binary_to_compressed_c.cpp)
+
