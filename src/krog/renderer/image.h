@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <cstddef>
+#include <vector>
+#include <mutex>
 
 #include "formats.h"
 

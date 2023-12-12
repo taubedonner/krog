@@ -4,7 +4,8 @@
 
 #pragma once
 
-
+#include <cstddef>
+#include <memory>
 
 namespace kr {
 

@@ -4,7 +4,9 @@
 
 #pragma once
 
-
+#include <cstddef>
+#include <array>
+#include <utility>
 
 #include <implot.h>
 #include <imgui.h>

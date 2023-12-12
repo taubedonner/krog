@@ -4,6 +4,8 @@
 
 #include "persistentconfig.h"
 
+#include <fstream>
+
 #include "krog/common.h"
 
 namespace kr {

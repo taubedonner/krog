@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <thread>
 
 
 namespace kr {

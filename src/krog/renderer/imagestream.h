@@ -6,6 +6,9 @@
 #include "formats.h"
 #include "image.h"
 
+#include <cstddef>
+#include <memory>
+
 #include <glad/glad.h>
 
 namespace kr::gl {

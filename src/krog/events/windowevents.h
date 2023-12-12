@@ -8,6 +8,9 @@
 
 #include "event.h"
 
+#include <cstddef>
+#include <memory>
+
 #include <SDL3/SDL.h>
 #include <glm/vec2.hpp>
 
