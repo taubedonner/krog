@@ -230,8 +230,8 @@ namespace ImGui {
             colors[ImGuiCol_Tab] = Darkest(SEAFOAM100);
             colors[ImGuiCol_TabHovered] = Darkest(SEAFOAM300);
             colors[ImGuiCol_TabActive] = Darkest(SEAFOAM400);
-            colors[ImGuiCol_TabUnfocused] = Darkest(SEAFOAM100);
-            colors[ImGuiCol_TabUnfocusedActive] = Darkest(SEAFOAM200);
+            colors[ImGuiCol_TabUnfocused] = Darkest(GRAY100);
+            colors[ImGuiCol_TabUnfocusedActive] = Darkest(SEAFOAM300);
             colors[ImGuiCol_DockingPreview] = Darkest(SEAFOAM200);
             colors[ImGuiCol_DockingEmptyBg] = Darkest(GRAY50);
             colors[ImGuiCol_PlotLines] = Darkest(GRAY500);
@@ -296,8 +296,8 @@ namespace ImGui {
             colors[ImGuiCol_Tab] = Light(BLUE100);
             colors[ImGuiCol_TabHovered] = Light(BLUE300);
             colors[ImGuiCol_TabActive] = Light(BLUE400);
-            colors[ImGuiCol_TabUnfocused] = Light(BLUE100);
-            colors[ImGuiCol_TabUnfocusedActive] = Light(BLUE200);
+            colors[ImGuiCol_TabUnfocused] = Light(GRAY100);
+            colors[ImGuiCol_TabUnfocusedActive] = Light(BLUE300);
             colors[ImGuiCol_DockingPreview] = Light(BLUE200);
             colors[ImGuiCol_DockingEmptyBg] = Light(GRAY50);
             colors[ImGuiCol_PlotLines] = Light(GRAY500);
