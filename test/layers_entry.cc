@@ -19,6 +19,7 @@ class TestLayer : public kr::Layer {
 };
 
 kr::Application *kr::CreateApp() {
+  KR_TRACE("*** Trace Log Test ***");
   KR_INFO("*** Layers Test ***");
   auto app = new kr::Application("Layers Test");
   app->AttachLayer(std::move(std::make_shared<TestLayer>()));

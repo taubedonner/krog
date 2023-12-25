@@ -202,8 +202,8 @@ namespace ImGui {
             colors[ImGuiCol_FrameBg] = Darkest(GRAY100);
             colors[ImGuiCol_FrameBgHovered] = Darkest(GRAY200);
             colors[ImGuiCol_FrameBgActive] = Darkest(GRAY200);
-            colors[ImGuiCol_TitleBg] = Darkest(GRAY200);
-            colors[ImGuiCol_TitleBgActive] = Darkest(SEAFOAM300);
+            colors[ImGuiCol_TitleBg] = Darkest(GRAY100);
+            colors[ImGuiCol_TitleBgActive] = Darkest(SEAFOAM200);
             auto titleBgCollapsed = Darkest(GRAY100);
             titleBgCollapsed.w = 0.75;
             colors[ImGuiCol_TitleBgCollapsed] = titleBgCollapsed;
