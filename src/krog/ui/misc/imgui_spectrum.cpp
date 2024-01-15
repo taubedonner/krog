@@ -5,6 +5,7 @@
 #include "imgui_spectrum.h"
 
 #include "ttf_sfprotext.h"
+#include "ttf_codicon.h"
 
 #include "krog/common.h"
 
@@ -165,7 +166,7 @@ namespace ImGui {
                     props.FontSize, &config,
                     io.Fonts->GetGlyphRangesCyrillic());
 
-/*            ImFontConfig config2;
+            ImFontConfig config2;
             config2.MergeMode = true;
             config2.GlyphOffset = {-4.0f, 3.25f};
             config2.GlyphMinAdvanceX = props.IconSize.x;
@@ -175,16 +176,16 @@ namespace ImGui {
                     TTF_CODICON_compressed_data,
                     TTF_CODICON_compressed_size,
                     props.FontSize, &config2,
-                    iconRanges);*/
+                    iconRanges);
 
-/*            // Large font
+            // Large font
             ImFontConfig config3;
             config3.GlyphOffset = {-1.0f, -2.0f};
             fonts[(int)Font::Large] = io.Fonts->AddFontFromMemoryCompressedTTF(
                     TTF_CODICON_compressed_data,
                     TTF_CODICON_compressed_size,
                     props.FontSize * 2.0f, &config3,
-                    iconRanges);*/
+                    iconRanges);
         }
 
 		 void StyleColorsDark() {

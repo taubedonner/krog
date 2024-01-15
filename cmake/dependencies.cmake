@@ -90,3 +90,17 @@ endif ()
 add_library(ImGui::ImGui ALIAS imgui_object)
 
 add_executable(binary_to_compressed ${imgui_SOURCE_DIR}/misc/fonts/binary_to_compressed_c.cpp)
+
+
+#### IconFontCppHeaders ####
+CPMAddPackage(
+        NAME ifch
+        GITHUB_REPOSITORY juliettef/IconFontCppHeaders
+        GIT_TAG origin/main
+        DOWNLOAD_ONLY True
+)
+
+add_library(ifch_interface INTERFACE)
+target_include_directories(ifch_interface INTERFACE ${ifch_SOURCE_DIR})
+
+add_library(IconFontCppHeaders ALIAS ifch_interface)

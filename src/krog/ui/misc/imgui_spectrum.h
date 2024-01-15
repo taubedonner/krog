@@ -11,6 +11,8 @@
 #include <implot.h>
 #include <imgui.h>
 
+#include <IconsCodicons.h>
+
 namespace ImGui {
 
     namespace Spectrum {
