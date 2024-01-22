@@ -31,6 +31,7 @@ target_sources(krog_shared PRIVATE
         krog/renderer/window.cc
         krog/renderer/image.cc
         krog/renderer/imagestream.cc
+        krog/renderer/texture.cc
         krog/events/event.cc
         krog/events/eventbus.cc
         krog/events/windowevents.cc
