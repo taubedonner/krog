@@ -16,6 +16,8 @@ class  Image2D {
  public:
   Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType, const uint8_t *data, size_t size);
 
+  Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType, const uint8_t *data);
+
   Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType, std::vector <uint8_t> data);
 
   Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType);
