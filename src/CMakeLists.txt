@@ -25,6 +25,7 @@ target_sources(krog_shared PRIVATE
         krog/application.cpp
         krog/util/persistentconfig.cpp
         krog/util/threadwrapper.cpp
+        krog/util/imageloader.cpp
 
         krog/renderer/formats.cc
         krog/renderer/window.cc
