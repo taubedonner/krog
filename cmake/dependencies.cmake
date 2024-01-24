@@ -27,7 +27,7 @@ CPMAddPackage("gh:g-truc/glm#0.9.9.8")
 
 
 #### SDL3 ####
-CPMAddPackage("gh:libsdl-org/SDL#33c9eeec7cda9da3a97543ae70289ac365acf297")
+CPMAddPackage("gh:libsdl-org/SDL#8fe257b541777f554470c427bf6c297484d6cee9")
 
 
 #### Eventpp ####
@@ -37,7 +37,7 @@ CPMAddPackage("gh:wqking/eventpp@0.1.2")
 #### ImGui ####
 CPMAddPackage(
         GITHUB_REPOSITORY ocornut/imgui
-        VERSION 1.89.9-docking
+        VERSION 1.90.1-docking
         DOWNLOAD_ONLY True
 )
 
