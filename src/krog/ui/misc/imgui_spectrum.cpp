@@ -168,7 +168,7 @@ namespace ImGui {
 
             ImFontConfig config2;
             config2.MergeMode = true;
-            config2.GlyphOffset = {-4.0f, 3.25f};
+            config2.GlyphOffset = {-3.0f, 3.25f};
             config2.GlyphMinAdvanceX = props.IconSize.x;
             config2.GlyphMaxAdvanceX = props.IconSize.x;
             static const ImWchar iconRanges[] = { ICON_MIN_CI, ICON_MAX_CI, 0 };
