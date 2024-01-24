@@ -10,11 +10,11 @@ namespace kr::gl {
 	: width_(width), height_(height), internalFormat_(internalFormat), pixelFormat_(pixelFormat), pixelType_(pixelType) {
   glGenTextures(1, &textureId_);
   glBindTexture(GL_TEXTURE_2D, textureId_);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-  glTexImage2D(GL_TEXTURE_2D, 0, internalFormat_, width_, height_, 0, pixelFormat, pixelType, nullptr);
+  glTexImage2D(GL_TEXTURE_2D, 0, internalFormat_, width_, height_, 0, pixelFormat, pixelType, data);
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 

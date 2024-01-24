@@ -25,11 +25,13 @@ target_sources(krog_shared PRIVATE
         krog/application.cpp
         krog/util/persistentconfig.cpp
         krog/util/threadwrapper.cpp
+        krog/util/imageloader.cpp
 
         krog/renderer/formats.cc
         krog/renderer/window.cc
         krog/renderer/image.cc
         krog/renderer/imagestream.cc
+        krog/renderer/texture.cc
         krog/events/event.cc
         krog/events/eventbus.cc
         krog/events/windowevents.cc
