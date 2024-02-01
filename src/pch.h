@@ -17,3 +17,10 @@
 #include <unordered_map>
 #include <thread>
 #include <chrono>
+
+#ifdef WIN32
+#include <windows.h>
+#include <winioctl.h>
+#include <shellapi.h>
+#endif // WIN32
+
