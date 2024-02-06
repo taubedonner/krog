@@ -94,6 +94,13 @@ static void SetupSinks() {
   }
 }
 
+void RegisterLogger(const std::shared_ptr<spdlog::logger>& logger) {
+    SetupSinks();
+    logger->sinks() = std::vector<spdlog::sink_ptr>(std::begin(s_Sinks), std::end(s_Sinks));
+    spdlog::register_logger(logger);
+}
+
+
  const std::shared_ptr<spdlog::logger> &GetLogger() {
   if (!s_Logger) {
 	std::lock_guard<std::mutex> lock(s_InitMutex);

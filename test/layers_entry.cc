@@ -8,9 +8,11 @@
 
 #include <implot.h>
 
-class TestLayer : public kr::Layer {
+class TestLayer : public kr::Layer, public kr::Loggable {
  public:
-  TestLayer() : kr::Layer("Test Layer") {}
+  TestLayer() : kr::Layer("Test Layer"), kr::Loggable("Test") {
+      logger->info("Logger test! {}", 123);
+  }
 
  private:
   void OnUiUpdate() override {

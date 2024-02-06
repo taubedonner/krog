@@ -7,39 +7,61 @@
 
 #include <spdlog/spdlog.h>
 
+#include <utility>
+
 namespace kr {
 
 #pragma pack(push, 1)
 
     template<typename T>
-    struct  Vec2 {
+    struct Vec2 {
         T x;
         T y;
 
-        Vec2<T> operator+=(const Vec2<T>& b) {
-            return { x += b.x, y += b.y };
+        Vec2<T> operator+=(const Vec2<T> &b) {
+            return {x += b.x, y += b.y};
         }
     };
 
     typedef Vec2<float> Vec2f;
 
     template<typename T>
-    T& SetBit(T& num, size_t bitPos, bool bitValue) {
+    T &SetBit(T &num, size_t bitPos, bool bitValue) {
         T mask = ~(1 << bitPos);
-        return num = (T)((num & mask) | (bitValue << bitPos));
+        return num = (T) ((num & mask) | (bitValue << bitPos));
     }
 
 #pragma pack(pop)
 
 
-	 int inet_pton4(const char *src, unsigned char *dst);
+    int inet_pton4(const char *src, unsigned char *dst);
 
+    void RegisterLogger(const std::shared_ptr<spdlog::logger>& logger);
 
-	 const std::shared_ptr<spdlog::logger>& GetLogger();
+    const std::shared_ptr<spdlog::logger> &GetLogger();
 
-    const std::shared_ptr<spdlog::logger>& GetCoreLogger();
+    const std::shared_ptr<spdlog::logger> &GetCoreLogger();
 
-    class  FrameSynchronizer {
+    class Loggable {
+    public:
+        explicit Loggable(std::string name) : logger(std::make_shared<spdlog::logger>(std::move(name))) {
+            logger->set_level(spdlog::level::trace);
+            logger->flush_on(spdlog::level::trace);
+            RegisterLogger(logger);
+
+            if (!logger) {
+                GetCoreLogger()->critical("Failed to register logger \"{}\". Exiting.", name);
+                std::terminate();
+            }
+        }
+
+        virtual ~Loggable() = default;
+
+    protected:
+        std::shared_ptr<spdlog::logger> logger{};
+    };
+
+    class FrameSynchronizer {
     public:
         explicit FrameSynchronizer(double fps = 300.0) {
             SetFps(fps);
