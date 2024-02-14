@@ -63,24 +63,19 @@ namespace kr {
 
     class FrameSynchronizer {
     public:
-        explicit FrameSynchronizer(double fps = 300.0) {
-            SetFps(fps);
+        explicit FrameSynchronizer(double fps = 300.0) : m_FrameTime(1.0 / fps), m_NextTimePoint(std::chrono::steady_clock::now()) {}
+
+        void BeginFrame() {}
+
+        void EndFrameAndSleep() {
+            m_NextTimePoint += m_FrameTime;
+            std::this_thread::sleep_until(m_NextTimePoint);
         }
-
-        void BeginFrame() {
-            m_StartPoint = std::chrono::high_resolution_clock::now();
-        }
-
-        void SetFps(double fps);
-
-        void EndFrameAndSleep();
 
     private:
-        bool m_Disabled{false};
-        std::chrono::duration<double, std::nano> m_DesiredDelay{};
-        std::chrono::time_point<std::chrono::high_resolution_clock> m_StartPoint;
+        std::chrono::duration<double> m_FrameTime;
+        std::chrono::time_point<std::chrono::steady_clock, decltype(m_FrameTime)> m_NextTimePoint;
     };
-
 }
 
 #ifdef KROG_EXPORT
