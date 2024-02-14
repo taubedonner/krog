@@ -19,17 +19,12 @@ namespace kr {
         auto& conf = PersistentConfig::GetRoot();
         auto appNode = conf["application"];
         windowConfig.FpsLimit = appNode["fps_limit"].as<double>(300);
+        windowConfig.SwapInterval = appNode["swap_interval"].as<int>(0);
         windowConfig.IsFullscreen = appNode["fullscreen"].as<bool>(false);
 
         if (!windowConfig.IsFullscreen) {
             windowConfig.Size.x = appNode["width"].as<int>(1600);
             windowConfig.Size.y = appNode["height"].as<int>(900);
-        }
-
-        if (windowConfig.FpsLimit == 0) {
-            windowConfig.SwapInterval = 1;
-        } else if (windowConfig.FpsLimit < 0) {
-            windowConfig.SwapInterval = -1;
         }
 
         m_Window = std::make_unique<Window>(windowConfig);

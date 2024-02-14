@@ -67,6 +67,7 @@ namespace kr {
         KR_INFO("{:<16} {}", "OpenGL Renderer:", (char *) glGetString(GL_RENDERER));
 
         SDL_GL_SetSwapInterval((config.SwapInterval > 1 || config.SwapInterval < -1) ? 0 : config.SwapInterval);
+
         SDL_ShowWindow(window);
         nativeWindow_ = window;
     }

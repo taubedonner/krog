@@ -63,18 +63,31 @@ namespace kr {
 
     class FrameSynchronizer {
     public:
-        explicit FrameSynchronizer(double fps = 300.0) : m_FrameTime(1.0 / fps), m_NextTimePoint(std::chrono::steady_clock::now()) {}
+        explicit FrameSynchronizer(double fps = 300.0) {
+            m_NextTimePoint = std::chrono::steady_clock::now();
+            SetFps(fps);
+        }
 
         void BeginFrame() {}
 
         void EndFrameAndSleep() {
+            if (m_IsUnlimited) return;
             m_NextTimePoint += m_FrameTime;
             std::this_thread::sleep_until(m_NextTimePoint);
         }
 
+        void SetFps(double fps) {
+            if (fps <= 0 || fps == DBL_MAX) {
+               m_IsUnlimited = true;
+            } else {
+                m_FrameTime = std::chrono::duration<double>(1.0 / fps);
+            }
+        }
+
     private:
-        std::chrono::duration<double> m_FrameTime;
-        std::chrono::time_point<std::chrono::steady_clock, decltype(m_FrameTime)> m_NextTimePoint;
+        bool m_IsUnlimited{false};
+        std::chrono::duration<double> m_FrameTime{1.0};
+        std::chrono::time_point<std::chrono::steady_clock, decltype(m_FrameTime)> m_NextTimePoint{};
     };
 }
 
