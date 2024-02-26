@@ -60,4 +60,12 @@ target_link_libraries(krog_shared PUBLIC
         IconFontCppHeaders
         $<$<BOOL:${KR_USE_FFMPEG}>:FFmpeg::libav>)
 
+set_target_properties(krog_shared PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+set_target_properties(SDL3-shared PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
 add_library(Krog::Krog ALIAS krog_shared)
