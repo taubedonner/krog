@@ -15,7 +15,3 @@ endif ()
 add_executable(krog_test_layers_exec)
 target_sources(krog_test_layers_exec PRIVATE layers_entry.cc)
 target_link_libraries(krog_test_layers_exec PRIVATE Krog::Krog)
-
-set_target_properties(krog_test_layers_exec PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
