@@ -46,6 +46,12 @@ class  Window {
 
   void SetFullScreen(bool set);
 
+  void SetSize(int width, int height);
+
+  void SetFpsLimit(double fps, int swapInterval = 0);
+
+  void SetTitle(const std::string& title);
+
   bool IsFullscreen() const { return windowConfig_.IsFullscreen; }
 
   double GetFpsLimit() const { return windowConfig_.FpsLimit; }

@@ -49,6 +49,8 @@ namespace kr {
             KR_ERROR("SDL_CreateWindow(): {}", SDL_GetError());
             std::exit(1);
         }
+        nativeWindow_ = window;
+
         SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
         auto glContext = SDL_GL_CreateContext(window);
         SDL_GL_MakeCurrent(window, glContext);
@@ -66,10 +68,9 @@ namespace kr {
         KR_INFO("{:<16} {}", "OpenGL Vendor:", (char *) glGetString(GL_VENDOR));
         KR_INFO("{:<16} {}", "OpenGL Renderer:", (char *) glGetString(GL_RENDERER));
 
-        SDL_GL_SetSwapInterval((config.SwapInterval > 1 || config.SwapInterval < -1) ? 0 : config.SwapInterval);
+        SetFpsLimit(config.FpsLimit, config.SwapInterval);
 
         SDL_ShowWindow(window);
-        nativeWindow_ = window;
     }
 
     Window::~Window() {
@@ -134,9 +135,31 @@ namespace kr {
     }
 
     void Window::SetFullScreen(bool set) {
+        if (!nativeWindow_) return;
         if (SDL_SetWindowFullscreen(nativeWindow_, (SDL_bool) set) == 0) {
             windowConfig_.IsFullscreen = set;
         }
+    }
+
+    void Window::SetSize(int width, int height) {
+        if (!nativeWindow_) return;
+        windowConfig_.Size = {width, height};
+        SDL_SetWindowSize(nativeWindow_, width, height);
+    }
+
+    void Window::SetTitle(const std::string &title) {
+        if (!nativeWindow_) return;
+        windowConfig_.Title = title;
+        SDL_SetWindowTitle(nativeWindow_, title.c_str());
+    }
+
+    void Window::SetFpsLimit(double fps, int swapInterval) {
+        if (!nativeWindow_) return;
+        swapInterval = std::clamp(swapInterval, -1, 1);
+        windowConfig_.SwapInterval = swapInterval;
+        windowConfig_.FpsLimit = fps;
+        SDL_GL_SetSwapInterval(swapInterval);
+        frameSynchronizer_.SetFps(fps);
     }
 
     WindowEventListener::~WindowEventListener() = default;
