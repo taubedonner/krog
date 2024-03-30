@@ -61,7 +61,9 @@ namespace kr {
         }
 
         glEnable(GL_DEBUG_OUTPUT);
+#ifndef __APPLE__
         glDebugMessageCallback(MessageCallback, nullptr);
+#endif
 
         KR_INFO("{:<16} {}.{}", "OpenGL Version:", GLVersion.major, GLVersion.minor);
         KR_INFO("{:<16} {}", "GLSL Version:", (char *) glGetString(GL_SHADING_LANGUAGE_VERSION));

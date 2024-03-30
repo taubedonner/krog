@@ -77,7 +77,7 @@ namespace kr {
         }
 
         void SetFps(double fps) {
-            if (fps <= 0 || fps == DBL_MAX) {
+            if (fps <= 0 || fps == std::numeric_limits<double>::max()) {
                m_IsUnlimited = true;
             } else {
                 m_FrameTime = std::chrono::duration<double>(1.0 / fps);
