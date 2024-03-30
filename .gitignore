@@ -10,3 +10,7 @@
 
 # Visual Studio Code
 /.vscode
+
+# XCode
+/build
+.DS_Store

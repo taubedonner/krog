@@ -38,7 +38,7 @@ namespace kr {
             ImGui::Spectrum::StyleColorsDark();
         }
 
-        const char* glsl_version = "#version 130";
+        const char* glsl_version = "#version 330 core";
         ImGui_ImplSDL3_InitForOpenGL(SDL_GL_GetCurrentWindow(), SDL_GL_GetCurrentContext());
         ImGui_ImplOpenGL3_Init(glsl_version);
     }
