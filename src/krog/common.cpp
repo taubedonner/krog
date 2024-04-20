@@ -68,9 +68,14 @@ namespace kr {
         }
     }
 
-    void RegisterLogger(const std::shared_ptr<spdlog::logger> &logger) {
+    void RegisterLogger(std::shared_ptr<spdlog::logger> &logger) {
         SetupSinks();
         logger->sinks() = std::vector<spdlog::sink_ptr>(std::begin(s_Sinks), std::end(s_Sinks));
+
+        if (auto found = spdlog::get(logger->name()); found) {
+            logger = found;
+            return;
+        }
         spdlog::register_logger(logger);
     }
 

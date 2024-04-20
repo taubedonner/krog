@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <thread>
 #include <chrono>
+#include <limits>
 
 #ifdef WIN32
 #include <windows.h>

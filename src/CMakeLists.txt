@@ -15,7 +15,7 @@ add_library(krog_shared SHARED)
 
 target_precompile_headers(krog_shared PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch.h>")
 
-target_compile_definitions(krog_shared PRIVATE KROG_EXPORT)
+target_compile_definitions(krog_shared PRIVATE KROG_EXPORT NOMINMAX)
 target_include_directories(krog_shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 set_target_properties(krog_shared PROPERTIES OUTPUT_NAME "libkrog")
 
