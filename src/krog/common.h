@@ -36,7 +36,7 @@ namespace kr {
 
     int inet_pton4(const char *src, unsigned char *dst);
 
-    void RegisterLogger(const std::shared_ptr<spdlog::logger>& logger);
+    void RegisterLogger(std::shared_ptr<spdlog::logger>& logger);
 
     const std::shared_ptr<spdlog::logger> &GetLogger();
 
