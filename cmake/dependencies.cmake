@@ -6,12 +6,13 @@ include_guard(GLOBAL)
 
 include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 
+set(BUILD_SHARED_LIBS ON)
+
 #### yaml-cpp ####
 CPMAddPackage("gh:jbeder/yaml-cpp#0.8.0")
 
 #### Fmt ####
 CPMAddPackage("gh:fmtlib/fmt#10.1.0")
-
 
 #### Spdlog ####
 CPMAddPackage(
@@ -80,6 +81,7 @@ target_sources(imgui_object
 
 target_link_libraries(imgui_object PRIVATE SDL3::SDL3)
 target_compile_definitions(imgui_object PUBLIC IMGUI_DEFINE_MATH_OPERATORS)
+set_property(TARGET imgui_object PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 if (MSVC)
     target_compile_options(imgui_object PRIVATE /wd4005)

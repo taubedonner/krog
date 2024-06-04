@@ -7,6 +7,8 @@ add_library(glad_object OBJECT)
 target_include_directories(glad_object PUBLIC include)
 target_sources(glad_object PRIVATE src/glad.c)
 
+set_property(TARGET glad_object PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 if (WIN32)
     target_compile_definitions(glad_object PRIVATE _GLAD_WIN32)
 elseif (LINUX)
