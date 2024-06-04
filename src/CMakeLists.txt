@@ -60,7 +60,6 @@ set(SOURCES
         krog/renderer/image.cc
         krog/renderer/imagestream.cc
         krog/renderer/texture.cc
-        krog/events/event.cc
         krog/events/eventbus.cc
 
         krog/ui/layer.cc

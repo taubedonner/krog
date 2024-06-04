@@ -11,8 +11,7 @@ namespace kr::gl {
 Image2D::Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType)
     : m_Width(width), m_Height(height), m_PixelFormat(pixelFormat), m_PixelType(pixelType) {}
 
-Image2D::Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType, std::vector<uint8_t> data)
-    : Image2D(width, height, pixelFormat, pixelType) {
+Image2D::Image2D(size_t width, size_t height, PixelFormat pixelFormat, PixelType pixelType, std::vector<uint8_t> data) : Image2D(width, height, pixelFormat, pixelType) {
   m_Data = std::move(data);
 }
 

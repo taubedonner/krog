@@ -18,9 +18,7 @@ namespace Spectrum {
 static Props props;
 static ImFont *fonts[2];
 
-bool operator==(ImVec4 &a, ImVec4 &b) {
-  return (ColorConvertFloat4ToU32(a) & ~IM_COL32_A_MASK) == (ColorConvertFloat4ToU32(b) & ~IM_COL32_A_MASK);
-}
+bool operator==(ImVec4 &a, ImVec4 &b) { return (ColorConvertFloat4ToU32(a) & ~IM_COL32_A_MASK) == (ColorConvertFloat4ToU32(b) & ~IM_COL32_A_MASK); }
 
 // This came from imgui_demo.cpp and adapted for Adobe Spectrum color palette (currently dark-only)
 void ShowStyleEditor(bool *p_open) {
@@ -43,13 +41,11 @@ void ShowStyleEditor(bool *p_open) {
       for (int i = 0; i < ImGuiCol_COUNT; i++) {
         const ImVec4 &col = style.Colors[i];
         const char *name = ImGui::GetStyleColorName(i);
-        auto foundPreview = std::find_if(Colors::Darkest.Values.begin(), Colors::Darkest.Values.end(),
-                                         [&](auto pl) { return pl.second == style.Colors[i]; });
+        auto foundPreview = std::find_if(Colors::Darkest.Values.begin(), Colors::Darkest.Values.end(), [&](auto pl) { return pl.second == style.Colors[i]; });
         if (!output_only_modified || memcmp(&col, &ref->Colors[i], sizeof(ImVec4)) != 0) {
           std::string preview =
               (foundPreview == Colors::Darkest.Values.end())
-                  ? fmt::format("colors[ImGuiCol_{}]{:>{}} ImVec4({:.2f}f, {:.2f}f, {:.2f}f, {:.2f}f);\n", name, "=",
-                                23 - (int)strlen(name), col.x, col.y, col.z, col.w)
+                  ? fmt::format("colors[ImGuiCol_{}]{:>{}} ImVec4({:.2f}f, {:.2f}f, {:.2f}f, {:.2f}f);\n", name, "=", 23 - (int)strlen(name), col.x, col.y, col.z, col.w)
                   : fmt::format("colors[ImGuiCol_{}]{:>{}} Darkest(DARKEST_{});\n", name, "=", 23 - (int)strlen(name), foundPreview->first);
           ImGui::LogText("%s", preview.c_str());
           KR_DEBUG(preview);
@@ -172,8 +168,7 @@ void Init(float fontSize) {
   };
 
   ImFontConfig config;
-  io.Fonts->AddFontFromMemoryCompressedTTF(TTF_SFPROTEXT_compressed_data, TTF_SFPROTEXT_compressed_size, props.FontSize, &config,
-                                           glyphRanges);
+  io.Fonts->AddFontFromMemoryCompressedTTF(TTF_SFPROTEXT_compressed_data, TTF_SFPROTEXT_compressed_size, props.FontSize, &config, glyphRanges);
 
   ImFontConfig config2;
   config2.MergeMode = true;
@@ -181,14 +176,12 @@ void Init(float fontSize) {
   config2.GlyphMinAdvanceX = props.IconSize.x;
   config2.GlyphMaxAdvanceX = props.IconSize.x;
   static const ImWchar iconRanges[] = {ICON_MIN_CI, ICON_MAX_CI, 0};
-  fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryCompressedTTF(TTF_CODICON_compressed_data, TTF_CODICON_compressed_size,
-                                                                       props.FontSize, &config2, iconRanges);
+  fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryCompressedTTF(TTF_CODICON_compressed_data, TTF_CODICON_compressed_size, props.FontSize, &config2, iconRanges);
 
   // Large font
   ImFontConfig config3;
   config3.GlyphOffset = {-1.0f, -2.0f};
-  fonts[(int)Font::Large] = io.Fonts->AddFontFromMemoryCompressedTTF(TTF_CODICON_compressed_data, TTF_CODICON_compressed_size,
-                                                                     props.FontSize * 2.0f, &config3, iconRanges);
+  fonts[(int)Font::Large] = io.Fonts->AddFontFromMemoryCompressedTTF(TTF_CODICON_compressed_data, TTF_CODICON_compressed_size, props.FontSize * 2.0f, &config3, iconRanges);
 }
 
 void StyleColorsDark() {

@@ -45,5 +45,4 @@ T &SetBit(T &num, size_t bitPos, bool bitValue) {
 #endif
 
 #define KR_BIND_FN(fn) [this](auto &&...args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
-#define KR_BIND_EXT_FN(objectPtr, fn) \
-  [objectPtr](auto &&...args) -> decltype(auto) { return objectPtr->fn(std::forward<decltype(args)>(args)...); }
+#define KR_BIND_EXT_FN(objectPtr, fn) [objectPtr](auto &&...args) -> decltype(auto) { return objectPtr->fn(std::forward<decltype(args)>(args)...); }

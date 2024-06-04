@@ -16,7 +16,7 @@ class Event {
 
   explicit Event(int priority = 0) : m_Priority(priority){};
 
-  virtual ~Event() = 0;
+  virtual ~Event() = default;
 
   [[nodiscard]] auto GetHash() const -> Hash { return typeid(*this).hash_code(); }
 
