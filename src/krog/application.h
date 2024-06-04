@@ -1,13 +1,13 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #pragma once
 
-#include "krog/renderer/window.h"
 #include "krog/events/windowevents.h"
-#include "krog/ui/layer.h"
+#include "krog/renderer/window.h"
 #include "krog/ui/imguilayer.h"
+#include "krog/ui/layer.h"
 
 int main(int argc, char **argv);
 
@@ -42,4 +42,4 @@ class Application {
 
 Application *CreateApp();
 
-} // kr
+}  // namespace kr

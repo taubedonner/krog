@@ -1,62 +1,61 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #include "eventbus.h"
+
 #include "krog/common.h"
 
 namespace kr {
 
-std::mutex EventBus::initMutex_;
-EventBus *EventBus::instance_ = nullptr;
+std::mutex EventBus::m_InitMutex;
+EventBus *EventBus::m_Instance = nullptr;
 
- EventBus::EventBus() {
-  isRunning_ = true;
-  implementation_ = std::make_unique<BusImpl>();
-  eventLoopRoutine_.Attach(std::thread{&EventBus::EventLoop, this});
+EventBus::EventBus() {
+  m_IsRunning = true;
+  m_Implementation = std::make_unique<BusImpl>();
+  m_EventLoopRoutine.Attach(std::thread{&EventBus::EventLoop, this});
 }
 
- EventBus::~EventBus() {
-  isRunning_ = false;
-  loopCondition_.notify_one();
-  implementation_->process();
-  eventLoopRoutine_.Detach();
+EventBus::~EventBus() {
+  m_IsRunning = false;
+  m_LoopCondition.notify_one();
+  m_Implementation->process();
+  m_EventLoopRoutine.Detach();
 }
 
- void EventBus::Enqueue(const Event::Ptr &event) {
-  if (isRunning_) {
-	implementation_->enqueue(event);
+void EventBus::Enqueue(const Event::Ptr &event) {
+  if (m_IsRunning) {
+    m_Implementation->enqueue(event);
   }
-  loopCondition_.notify_one();
+  m_LoopCondition.notify_one();
 }
 
- void EventBus::Enqueue(Event::Hash hash, const Event::Ptr &event) {
-  if (isRunning_) {
-	implementation_->enqueue(hash, event);
+void EventBus::Enqueue(Event::Hash hash, const Event::Ptr &event) {
+  if (m_IsRunning) {
+    m_Implementation->enqueue(hash, event);
   }
-  loopCondition_.notify_one();
+  m_LoopCondition.notify_one();
 }
 
- void EventBus::EventLoop() {
-  while (isRunning_) {
-	std::unique_lock <std::mutex> lock(loopMutex_);
-	loopCondition_.wait(lock, [this] {
-	  return ((!implementation_->emptyQueue() && isRunning_)
-		  || (implementation_->emptyQueue() && !isRunning_));
-	});
-	implementation_->process();
+void EventBus::EventLoop() {
+  while (m_IsRunning) {
+    std::unique_lock<std::mutex> lock(m_LoopMutex);
+    m_LoopCondition.wait(
+        lock, [this] { return ((!m_Implementation->emptyQueue() && m_IsRunning) || (m_Implementation->emptyQueue() && !m_IsRunning)); });
+    m_Implementation->process();
   }
 }
 
- EventBus &EventBus::GetInstance() {
-  if (!instance_) {
-	std::lock_guard <std::mutex> lock(initMutex_);
-	if (!instance_) {
-	  instance_ = new EventBus();
-	}
+EventBus &EventBus::GetInstance() {
+  if (!m_Instance) {
+    std::lock_guard<std::mutex> lock(m_InitMutex);
+    if (!m_Instance) {
+      m_Instance = new EventBus();
+    }
   };
 
-  return *instance_;
+  return *m_Instance;
 }
 
-} // kr
+}  // namespace kr

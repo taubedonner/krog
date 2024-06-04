@@ -1,9 +1,8 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #pragma once
-
 
 #include <glad/glad.h>
 
@@ -24,10 +23,10 @@ enum class PixelFormat {
   Count
 };
 
- GLenum ConvertPixelType(PixelType type);
+GLenum ConvertPixelType(PixelType type);
 
- GLenum ConvertPixelFormat(PixelFormat format);
+GLenum ConvertPixelFormat(PixelFormat format);
 
- GLint ConvertInternalFormat(PixelType type, PixelFormat format);
+GLint ConvertInternalFormat(PixelType type, PixelFormat format);
 
-} // gl
+}  // namespace kr::gl

@@ -1,50 +1,49 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
-
-#include "formats.h"
-#include "image.h"
+#include <glad/glad.h>
 
 #include <cstddef>
 #include <memory>
 
-#include <glad/glad.h>
+#include "formats.h"
+#include "image.h"
 
 namespace kr::gl {
 
-class  ImageStream2D {
+class ImageStream2D {
  public:
   explicit ImageStream2D();
 
   ~ImageStream2D();
 
-  [[nodiscard]] auto GetTextureId() const { return textureId_; }
+  [[nodiscard]] auto GetTextureId() const { return m_TextureId; }
 
-  [[nodiscard]] auto GetTextureIdAgnostic() const { return (void *)(uintptr_t)(textureId_); }
+  [[nodiscard]] auto GetTextureIdAgnostic() const { return (void *)(uintptr_t)(m_TextureId); }
 
-  [[nodiscard]] auto GetPboId() const { return pboId_; }
+  [[nodiscard]] auto GetPboId() const { return m_PboId; }
 
-  void UpdateTexture(const std::shared_ptr <Image2D> &image);
+  void UpdateTexture(const std::shared_ptr<Image2D> &image);
 
-  auto SetShouldReallocate(bool reallocate = true) { shouldReallocate_ = reallocate; }
+  auto SetShouldReallocate(bool reallocate = true) { m_ShouldReallocate = reallocate; }
 
-  [[nodiscard]] auto ShouldReallocate() const { return shouldReallocate_; }
+  [[nodiscard]] auto ShouldReallocate() const { return m_ShouldReallocate; }
 
  private:
-  void Init(const std::shared_ptr <Image2D> &image);
+  void Init(const std::shared_ptr<Image2D> &image);
 
   void Free();
 
-  GLuint textureId_ = 0;
-  GLuint pboId_ = 0;
-  GLsizei width_ = 0;
-  GLsizei height_ = 0;
-  GLenum pixelType_ = GL_ZERO;
-  GLenum pixelFormat_ = GL_ZERO;
-  GLint internalFormat_ = GL_ZERO;
+  GLuint m_TextureId = 0;
+  GLuint m_PboId = 0;
+  GLsizei m_Width = 0;
+  GLsizei m_Height = 0;
+  GLenum m_PixelType = GL_ZERO;
+  GLenum m_PixelFormat = GL_ZERO;
+  GLint m_InternalFormat = GL_ZERO;
 
-  volatile bool shouldReallocate_ = true;
+  volatile bool m_ShouldReallocate = true;
 };
 
-} // kr
+}  // namespace kr::gl

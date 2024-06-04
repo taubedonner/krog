@@ -1,23 +1,18 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
+#include <implot.h>
+#include <krog/common.h>
 #include <krog/entry.h>
 #include <krog/ui/layer.h>
-#include <krog/common.h>
-
-#include <implot.h>
 
 class TestLayer : public kr::Layer, public kr::Loggable {
  public:
-  TestLayer() : kr::Layer("Test Layer"), kr::Loggable("Test") {
-      logger->info("Logger test! {}", 123);
-  }
+  TestLayer() : kr::Layer("Test Layer"), kr::Loggable("Test") { logger->info("Logger test! {}", 123); }
 
  private:
-  void OnUiUpdate() override {
-    ImPlot::ShowDemoWindow();
-  }
+  void OnUiUpdate() override { ImPlot::ShowDemoWindow(); }
 };
 
 kr::Application *kr::CreateApp() {

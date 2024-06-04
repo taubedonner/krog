@@ -1,43 +1,40 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #pragma once
-
-
 
 #include <glad/glad.h>
 
 namespace kr::gl {
 
-    class  Texture2D {
-    public:
+class Texture2D {
+ public:
+  Texture2D() : Texture2D(nullptr, 1, 1, GL_RGBA32F, GL_RGBA, GL_UNSIGNED_BYTE){};
 
-        Texture2D() : Texture2D(nullptr, 1, 1, GL_RGBA32F, GL_RGBA, GL_UNSIGNED_BYTE) {};
+  Texture2D(const GLubyte* data, GLsizei width, GLsizei height, GLint internalFormat, GLenum pixelFormat, GLenum pixelType);
 
-        Texture2D(const GLubyte* data, GLsizei width, GLsizei height, GLint internalFormat, GLenum pixelFormat, GLenum pixelType);
+  ~Texture2D();
 
-        ~Texture2D();
+  void Bind() const;
 
-        void Bind() const;
+  void Unbind() const;
 
-        void Unbind() const;
+  [[nodiscard]] auto GetID() const -> GLuint { return m_TextureId; }
 
-        [[nodiscard]] auto GetID() const -> GLuint { return textureId_; }
+  [[nodiscard]] auto GetWidth() const -> GLsizei { return m_Width; }
 
-        [[nodiscard]] auto GetWidth() const -> GLsizei { return width_; }
+  [[nodiscard]] auto GetHeight() const -> GLsizei { return m_Height; }
 
-        [[nodiscard]] auto GetHeight() const -> GLsizei { return height_; }
+  void UpdateData(const GLubyte* data, int bind = 0) const;
 
-        void UpdateData(const GLubyte* data, int bind = 0) const;
+ private:
+  GLsizei m_Width = 0;
+  GLsizei m_Height = 0;
+  GLint m_InternalFormat;
+  GLenum m_PixelFormat;
+  GLenum m_PixelType;
+  GLuint m_TextureId = 0;
+};
 
-    private:
-        GLsizei width_ = 0;
-        GLsizei height_ = 0;
-        GLint internalFormat_;
-        GLenum pixelFormat_;
-        GLenum pixelType_;
-        GLuint textureId_ = 0;
-    };
-
-} // gl
+}  // namespace kr::gl

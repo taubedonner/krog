@@ -1,5 +1,5 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #include "window.h"
@@ -16,154 +16,146 @@ extern "C" {
 
 namespace kr {
 
-    void GLAPIENTRY MessageCallback([[maybe_unused]] GLenum source, GLenum type,
-                                    GLuint id, [[maybe_unused]] GLenum severity,
-                                    [[maybe_unused]] GLsizei length, const GLchar *message,
-                                    [[maybe_unused]] const void *userParam) {
-        if (type == GL_DEBUG_TYPE_ERROR) {
-            KR_DEBUG("[GL Debug] {:x}: {}", id, message);
-        }
-    }
+void GLAPIENTRY MessageCallback([[maybe_unused]] GLenum source, GLenum type, GLuint id, [[maybe_unused]] GLenum severity,
+                                [[maybe_unused]] GLsizei length, const GLchar *message, [[maybe_unused]] const void *userParam) {
+  if (type == GL_DEBUG_TYPE_ERROR) {
+    KR_DEBUG("[GL Debug] {:x}: {}", id, message);
+  }
+}
 
-    Window::Window(const WindowConfig &config) : windowConfig_(config), frameSynchronizer_(config.FpsLimit) {
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMEPAD) != 0) {
-            KR_ERROR("SDL_Init(): {}", SDL_GetError());
-            std::exit(1);
-        }
+Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSynchronizer(config.FpsLimit) {
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMEPAD) != 0) {
+    KR_ERROR("SDL_Init(): {}", SDL_GetError());
+    std::exit(1);
+  }
 
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
-        SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
+  SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
 
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-        SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-        auto windowFlags = (SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN);
-        if (windowConfig_.IsFullscreen) windowFlags |= SDL_WINDOW_FULLSCREEN;
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+  auto windowFlags = (SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN);
+  if (m_WindowConfig.IsFullscreen) windowFlags |= SDL_WINDOW_FULLSCREEN;
 
-        SDL_Window *window = SDL_CreateWindow(config.Title.c_str(), config.Size.x, config.Size.y, windowFlags);
-        if (window == nullptr) {
-            KR_ERROR("SDL_CreateWindow(): {}", SDL_GetError());
-            std::exit(1);
-        }
-        nativeWindow_ = window;
+  SDL_Window *window = SDL_CreateWindow(config.Title.c_str(), config.Size.x, config.Size.y, windowFlags);
+  if (window == nullptr) {
+    KR_ERROR("SDL_CreateWindow(): {}", SDL_GetError());
+    std::exit(1);
+  }
+  m_NativeWindow = window;
 
-        SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-        auto glContext = SDL_GL_CreateContext(window);
-        SDL_GL_MakeCurrent(window, glContext);
+  SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+  auto glContext = SDL_GL_CreateContext(window);
+  SDL_GL_MakeCurrent(window, glContext);
 
-        if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
-            KR_ERROR("gladLoadGLLoader(): Failed to initialize Glad");
-            std::exit(1);
-        }
+  if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+    KR_ERROR("gladLoadGLLoader(): Failed to initialize Glad");
+    std::exit(1);
+  }
 
-        glEnable(GL_DEBUG_OUTPUT);
+  glEnable(GL_DEBUG_OUTPUT);
 #ifndef __APPLE__
-        glDebugMessageCallback(MessageCallback, nullptr);
+  glDebugMessageCallback(MessageCallback, nullptr);
 #endif
 
-        KR_INFO("{:<16} {}.{}", "OpenGL Version:", GLVersion.major, GLVersion.minor);
-        KR_INFO("{:<16} {}", "GLSL Version:", (char *) glGetString(GL_SHADING_LANGUAGE_VERSION));
-        KR_INFO("{:<16} {}", "OpenGL Vendor:", (char *) glGetString(GL_VENDOR));
-        KR_INFO("{:<16} {}", "OpenGL Renderer:", (char *) glGetString(GL_RENDERER));
+  KR_INFO("{:<16} {}.{}", "OpenGL Version:", GLVersion.major, GLVersion.minor);
+  KR_INFO("{:<16} {}", "GLSL Version:", (char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
+  KR_INFO("{:<16} {}", "OpenGL Vendor:", (char *)glGetString(GL_VENDOR));
+  KR_INFO("{:<16} {}", "OpenGL Renderer:", (char *)glGetString(GL_RENDERER));
 
-        SetFpsLimit(config.FpsLimit, config.SwapInterval);
+  SetFpsLimit(config.FpsLimit, config.SwapInterval);
 
-        SDL_ShowWindow(window);
+  SDL_ShowWindow(window);
+}
+
+Window::~Window() {
+  SDL_DestroyWindow(m_NativeWindow);
+  SDL_Quit();
+}
+
+void Window::BeginUpdate() {
+  m_FrameSynchronizer.BeginFrame();
+
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
+      EventBus::PushEvent<WindowCloseEvent>();
     }
 
-    Window::~Window() {
-        SDL_DestroyWindow(nativeWindow_);
-        SDL_Quit();
+    if (event.type == SDL_EVENT_KEY_DOWN) {
+      auto &keysym = event.key.keysym;
+      if ((keysym.sym == SDLK_RETURN) && (keysym.mod & SDL_KMOD_ALT)) {
+        auto flag = SDL_GetWindowFlags(m_NativeWindow);
+        bool isFullscreen = (flag & SDL_WINDOW_FULLSCREEN);
+        SetFullScreen(!isFullscreen);
+      }
+
+      EventBus::PushEvent<KeyPressEvent>(event);
     }
 
-    void Window::BeginUpdate() {
-        frameSynchronizer_.BeginFrame();
-
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
-                EventBus::PushEvent<WindowCloseEvent>();
-            }
-
-            if (event.type == SDL_EVENT_KEY_DOWN) {
-                auto &keysym = event.key.keysym;
-                if ((keysym.sym == SDLK_RETURN) && (keysym.mod & SDL_KMOD_ALT)) {
-                    auto flag = SDL_GetWindowFlags(nativeWindow_);
-                    bool isFullscreen = (flag & SDL_WINDOW_FULLSCREEN);
-                    SetFullScreen(!isFullscreen);
-                }
-
-                EventBus::PushEvent<KeyPressEvent>(event);
-            }
-
-            if (event.type == SDL_EVENT_WINDOW_RESIZED) {
-                auto &resizeEvent = event.window;
-                windowConfig_.Size.x = resizeEvent.data1;
-                windowConfig_.Size.y = resizeEvent.data2;
-            }
-
-            eventCallbackList_(&event);
-        }
+    if (event.type == SDL_EVENT_WINDOW_RESIZED) {
+      auto &resizeEvent = event.window;
+      m_WindowConfig.Size.x = resizeEvent.data1;
+      m_WindowConfig.Size.y = resizeEvent.data2;
     }
 
-    void Window::EndUpdate() {
-        SDL_GL_SwapWindow(nativeWindow_);
-        frameSynchronizer_.EndFrameAndSleep();
-    }
+    m_EventCallbackList(&event);
+  }
+}
 
-    SDL_Window *Window::GetNativeWindow() {
-        return nativeWindow_;
-    }
+void Window::EndUpdate() {
+  SDL_GL_SwapWindow(m_NativeWindow);
+  m_FrameSynchronizer.EndFrameAndSleep();
+}
 
-    void Window::AppendListener(WindowEventListener *listener) {
-        if (!listener) {
-            return;
-        }
+SDL_Window *Window::GetNativeWindow() { return m_NativeWindow; }
 
-        listener->remover_.setCallbackList(eventCallbackList_);
-        eventCallbackList_.append(KR_BIND_EXT_FN(listener, OnWindowEvent));
-    }
+void Window::AppendListener(WindowEventListener *listener) {
+  if (!listener) {
+    return;
+  }
 
-    int Window::GetWidth() const {
-        return windowConfig_.Size.x;
-    }
+  listener->m_Remover.setCallbackList(m_EventCallbackList);
+  m_EventCallbackList.append(KR_BIND_EXT_FN(listener, OnWindowEvent));
+}
 
-    int Window::GetHeight() const {
-        return windowConfig_.Size.y;
-    }
+int Window::GetWidth() const { return m_WindowConfig.Size.x; }
 
-    void Window::SetFullScreen(bool set) {
-        if (!nativeWindow_) return;
-        if (SDL_SetWindowFullscreen(nativeWindow_, (SDL_bool) set) == 0) {
-            windowConfig_.IsFullscreen = set;
-        }
-    }
+int Window::GetHeight() const { return m_WindowConfig.Size.y; }
 
-    void Window::SetSize(int width, int height) {
-        if (!nativeWindow_) return;
-        windowConfig_.Size = {width, height};
-        SDL_SetWindowSize(nativeWindow_, width, height);
-    }
+void Window::SetFullScreen(bool set) {
+  if (!m_NativeWindow) return;
+  if (SDL_SetWindowFullscreen(m_NativeWindow, (SDL_bool)set) == 0) {
+    m_WindowConfig.IsFullscreen = set;
+  }
+}
 
-    void Window::SetTitle(const std::string &title) {
-        if (!nativeWindow_) return;
-        windowConfig_.Title = title;
-        SDL_SetWindowTitle(nativeWindow_, title.c_str());
-    }
+void Window::SetSize(int width, int height) {
+  if (!m_NativeWindow) return;
+  m_WindowConfig.Size = {width, height};
+  SDL_SetWindowSize(m_NativeWindow, width, height);
+}
 
-    void Window::SetFpsLimit(double fps, int swapInterval) {
-        if (!nativeWindow_) return;
-        swapInterval = std::clamp(swapInterval, -1, 1);
-        windowConfig_.SwapInterval = swapInterval;
-        windowConfig_.FpsLimit = fps;
-        SDL_GL_SetSwapInterval(swapInterval);
-        frameSynchronizer_.SetFps(fps);
-    }
+void Window::SetTitle(const std::string &title) {
+  if (!m_NativeWindow) return;
+  m_WindowConfig.Title = title;
+  SDL_SetWindowTitle(m_NativeWindow, title.c_str());
+}
 
-    WindowEventListener::~WindowEventListener() = default;
+void Window::SetFpsLimit(double fps, int swapInterval) {
+  if (!m_NativeWindow) return;
+  swapInterval = std::clamp(swapInterval, -1, 1);
+  m_WindowConfig.SwapInterval = swapInterval;
+  m_WindowConfig.FpsLimit = fps;
+  SDL_GL_SetSwapInterval(swapInterval);
+  m_FrameSynchronizer.SetFps(fps);
+}
 
-} // kr
+WindowEventListener::~WindowEventListener() = default;
+
+}  // namespace kr

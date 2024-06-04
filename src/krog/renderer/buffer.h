@@ -1,15 +1,14 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #pragma once
-
 
 #include <glad/glad.h>
 
 namespace kr::gl {
 
-class  PixelBufferObject {
+class PixelBufferObject {
  public:
   explicit PixelBufferObject(GLsizeiptr size);
 
@@ -21,14 +20,14 @@ class  PixelBufferObject {
 
   bool UpdateData(const GLubyte *data, int bind = 0);
 
-  [[nodiscard]] auto GetID(GLuint id) const -> GLuint { return bufferId_; }
+  [[nodiscard]] auto GetID(GLuint id) const -> GLuint { return m_BufferId; }
 
-  [[nodiscard]] auto GetSize() const -> GLsizeiptr { return size_; }
+  [[nodiscard]] auto GetSize() const -> GLsizeiptr { return m_Size; }
 
  private:
-  GLsizeiptr size_;
-  GLuint bufferId_ = 0;
-  bool useDoubleBuffering_ = false;
+  GLsizeiptr m_Size;
+  GLuint m_BufferId = 0;
+  bool m_UseDoubleBuffering = false;
 };
 
-} // gl
+}  // namespace kr::gl

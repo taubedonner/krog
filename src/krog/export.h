@@ -15,4 +15,4 @@
 #define KROG_API
 #endif
 
-#endif //KROG_SRC_KROG_EXPORT_H_
+#endif  // KROG_SRC_KROG_EXPORT_H_

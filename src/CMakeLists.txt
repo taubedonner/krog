@@ -1,5 +1,5 @@
 #
-# Created by Nikita Zarudniy on 06/29/023.
+# Created by Nikita Zarudniy on 6/29/2023.
 #
 
 find_package(OpenGL REQUIRED)
@@ -22,12 +22,38 @@ set_target_properties(krog_shared PROPERTIES OUTPUT_NAME "libkrog")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/includes/kr_appname.h.in ${CMAKE_CURRENT_BINARY_DIR}/generated/kr_appname.h)
 target_include_directories(krog_shared PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/generated)
 
-target_sources(krog_shared PRIVATE
-        krog/common.cpp
-        krog/application.cpp
-        krog/util/persistentconfig.cpp
-        krog/util/threadwrapper.cpp
-        krog/util/imageloader.cpp
+set(HEADERS
+        krog/common.h
+        krog/application.h
+        krog/util/loggable.h
+        krog/util/framesynchronizer.h
+        krog/util/persistentconfig.h
+        krog/util/threadwrapper.h
+        krog/util/imageloader.h
+
+        krog/renderer/formats.h
+        krog/renderer/window.h
+        krog/renderer/image.h
+        krog/renderer/imagestream.h
+        krog/renderer/texture.h
+        krog/events/event.h
+        krog/events/eventbus.h
+        krog/events/windowevents.h
+
+        krog/ui/layer.h
+        krog/ui/imguilayer.h
+
+        krog/video/capture.h
+        $<$<BOOL:${KR_USE_FFMPEG}>:krog/video/avcapture.h>
+
+        krog/ui/misc/imgui_spectrum.h)
+
+set(SOURCES
+        krog/application.cc
+        krog/util/loggable.cc
+        krog/util/framesynchronizer.cc
+        krog/util/persistentconfig.cc
+        krog/util/threadwrapper.cc
 
         krog/renderer/formats.cc
         krog/renderer/window.cc
@@ -36,15 +62,16 @@ target_sources(krog_shared PRIVATE
         krog/renderer/texture.cc
         krog/events/event.cc
         krog/events/eventbus.cc
-        krog/events/windowevents.cc
 
-        krog/ui/layer.cpp
-        krog/ui/imguilayer.cpp
+        krog/ui/layer.cc
+        krog/ui/imguilayer.cc
 
-        krog/video/capture.cpp
-        $<$<BOOL:${KR_USE_FFMPEG}>:krog/video/avcapture.cpp>
+        krog/video/capture.cc
+        $<$<BOOL:${KR_USE_FFMPEG}>:krog/video/avcapture.cc>
 
-        krog/ui/misc/imgui_spectrum.cpp)
+        krog/ui/misc/imgui_spectrum.cc)
+
+target_sources(krog_shared PUBLIC ${HEADERS} PRIVATE ${SOURCES})
 
 target_link_libraries(krog_shared PUBLIC
         fmt::fmt

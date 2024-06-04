@@ -1,24 +1,24 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #pragma once
 
+#include <SDL3/SDL.h>
+#include <eventpp/hetercallbacklist.h>
+#include <eventpp/utilities/scopedremover.h>
+#include <glad/glad.h>
+
+#include <glm/vec2.hpp>
 
 #include "krog/common.h"
-
-#include <eventpp/utilities/scopedremover.h>
-#include <eventpp/hetercallbacklist.h>
-
-#include <glad/glad.h>
-#include <SDL3/SDL.h>
-#include <glm/vec2.hpp>
+#include "krog/util/framesynchronizer.h"
 
 namespace kr {
 
-class  WindowEventListener;
+class WindowEventListener;
 
-struct  WindowConfig {
+struct WindowConfig {
   std::string Title = "Application";
   glm::ivec2 Size = {1600, 900};
   int SwapInterval = 0;
@@ -26,7 +26,7 @@ struct  WindowConfig {
   double FpsLimit{300.0};
 };
 
-class  Window {
+class Window {
  public:
   using WindowEventListenerCallback = void(const SDL_Event *event);
 
@@ -50,11 +50,11 @@ class  Window {
 
   void SetFpsLimit(double fps, int swapInterval = 0);
 
-  void SetTitle(const std::string& title);
+  void SetTitle(const std::string &title);
 
-  bool IsFullscreen() const { return windowConfig_.IsFullscreen; }
+  bool IsFullscreen() const { return m_WindowConfig.IsFullscreen; }
 
-  double GetFpsLimit() const { return windowConfig_.FpsLimit; }
+  double GetFpsLimit() const { return m_WindowConfig.FpsLimit; }
 
   void BeginUpdate();
 
@@ -69,22 +69,21 @@ class  Window {
   void AppendListener(WindowEventListener *listener);
 
  protected:
-  WindowConfig windowConfig_{};
-  FrameSynchronizer frameSynchronizer_{};
-  SDL_Window *nativeWindow_{nullptr};
-  EventCallbackList eventCallbackList_;
-
+  WindowConfig m_WindowConfig{};
+  FrameSynchronizer m_FrameSynchronizer{};
+  SDL_Window *m_NativeWindow{nullptr};
+  EventCallbackList m_EventCallbackList;
 };
 
-class  WindowEventListener {
+class WindowEventListener {
  public:
   virtual ~WindowEventListener() = 0;
 
-  virtual void OnWindowEvent(const SDL_Event *event) {};
+  virtual void OnWindowEvent(const SDL_Event *event){};
 
  private:
-  eventpp::ScopedRemover <Window::EventCallbackList> remover_;
+  eventpp::ScopedRemover<Window::EventCallbackList> m_Remover;
   friend class Window;
 };
 
-} // kr
+}  // namespace kr

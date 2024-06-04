@@ -1,5 +1,5 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #pragma once
@@ -8,34 +8,34 @@
 
 namespace kr {
 
-    class  Application;
+class Application;
 
-    class  Layer {
-    public:
-        explicit Layer(std::string  name = "Unnamed Layer");
+class Layer {
+ public:
+  explicit Layer(std::string name = "Unnamed Layer");
 
-        virtual ~Layer() = 0;
+  virtual ~Layer() = 0;
 
-        void OnAttachApp(Application* application) {
-            m_Application = application;
-            OnAttach();
-        }
+  void OnAttachApp(Application* application) {
+    m_Application = application;
+    OnAttach();
+  }
 
-        virtual void OnAttach() {};
+  virtual void OnAttach(){};
 
-        virtual void OnDetach() {};
+  virtual void OnDetach(){};
 
-        virtual void OnUpdate() {};
+  virtual void OnUpdate(){};
 
-        virtual void OnUiUpdate() {};
+  virtual void OnUiUpdate(){};
 
-        std::string GetName();
+  std::string GetName();
 
-        auto GetApplication() { return m_Application; }
+  auto GetApplication() { return m_Application; }
 
-    protected:
-        std::string m_LayerName;
-        Application* m_Application{nullptr};
-    };
+ protected:
+  std::string m_LayerName;
+  Application* m_Application{nullptr};
+};
 
-} // kr
+}  // namespace kr

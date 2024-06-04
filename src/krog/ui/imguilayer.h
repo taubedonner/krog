@@ -1,30 +1,29 @@
 //
-// Created by Nikita Zarudniy on 06/29/2023.
+// Created by Nikita Zarudniy on 6/29/2023.
 //
 
 #pragma once
 
-#include "layer.h"
-
 #include "krog/renderer/window.h"
+#include "layer.h"
 
 namespace kr {
 
-    class  ImGuiLayer : public Layer, public WindowEventListener {
-    public:
-        ImGuiLayer() : Layer("ImGui Layer") {}
+class ImGuiLayer : public Layer, public WindowEventListener {
+ public:
+  ImGuiLayer() : Layer("ImGui Layer") {}
 
-        void OnAttach() override;
+  void OnAttach() override;
 
-        void OnDetach() override;
+  void OnDetach() override;
 
-        void OnUpdate() override;
+  void OnUpdate() override;
 
-        void BeginUiUpdate();
+  void BeginUiUpdate();
 
-        void EndUiUpdate();
+  void EndUiUpdate();
 
-        void OnWindowEvent(const SDL_Event* event) override;
-    };
+  void OnWindowEvent(const SDL_Event* event) override;
+};
 
-} // kr
+}  // namespace kr

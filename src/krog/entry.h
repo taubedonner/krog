@@ -6,12 +6,10 @@
 
 #include "krog/application.h"
 
-extern kr::Application *kr::CreateApp();
-
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
-    auto app = kr::CreateApp();
-    app->Run();
-    delete app;
+  auto app = kr::CreateApp();
+  app->Run();
+  delete app;
 
-    return 0;
+  return 0;
 }
