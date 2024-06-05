@@ -70,7 +70,7 @@ set(SOURCES
 
         krog/ui/misc/imgui_spectrum.cc)
 
-target_sources(krog_shared PUBLIC ${HEADERS} PRIVATE ${SOURCES})
+target_sources(krog_shared PRIVATE ${HEADERS} ${SOURCES})
 
 target_link_libraries(krog_shared PUBLIC
         fmt::fmt
