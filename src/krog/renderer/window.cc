@@ -16,8 +16,8 @@ extern "C" {
 
 namespace kr {
 
-void GLAPIENTRY MessageCallback([[maybe_unused]] GLenum source, GLenum type, GLuint id, [[maybe_unused]] GLenum severity,
-                                [[maybe_unused]] GLsizei length, const GLchar *message, [[maybe_unused]] const void *userParam) {
+void GLAPIENTRY MessageCallback([[maybe_unused]] GLenum source, GLenum type, GLuint id, [[maybe_unused]] GLenum severity, [[maybe_unused]] GLsizei length, const GLchar *message,
+                                [[maybe_unused]] const void *userParam) {
   if (type == GL_DEBUG_TYPE_ERROR) {
     KR_DEBUG("[GL Debug] {:x}: {}", id, message);
   }

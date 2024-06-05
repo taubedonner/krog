@@ -41,8 +41,7 @@ void EventBus::Enqueue(Event::Hash hash, const Event::Ptr &event) {
 void EventBus::EventLoop() {
   while (m_IsRunning) {
     std::unique_lock<std::mutex> lock(m_LoopMutex);
-    m_LoopCondition.wait(
-        lock, [this] { return ((!m_Implementation->emptyQueue() && m_IsRunning) || (m_Implementation->emptyQueue() && !m_IsRunning)); });
+    m_LoopCondition.wait(lock, [this] { return ((!m_Implementation->emptyQueue() && m_IsRunning) || (m_Implementation->emptyQueue() && !m_IsRunning)); });
     m_Implementation->process();
   }
 }

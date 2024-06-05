@@ -90,4 +90,11 @@ Loggable::Loggable(std::string name) : logger(std::make_shared<spdlog::logger>(s
   }
 }
 
+Loggable::Loggable(const Loggable *loggable) : logger(loggable ? loggable->logger : nullptr) {
+  if (!logger) {
+    GetCoreLogger()->critical("The parent logger is not presented. Exiting.");
+    std::terminate();
+  }
+}
+
 }  // namespace kr

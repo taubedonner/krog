@@ -2,26 +2,25 @@
 // Created by Nikita Zarudniy on 6/29/2023.
 //
 
-#include <span>
-#include <mutex>
-#include <array>
-#include <vector>
-#include <atomic>
-#include <string>
-#include <memory>
-#include <fstream>
-#include <utility>
-#include <optional>
 #include <algorithm>
-#include <functional>
-#include <unordered_map>
-#include <thread>
+#include <array>
+#include <atomic>
 #include <chrono>
+#include <fstream>
+#include <functional>
 #include <limits>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <span>
+#include <string>
+#include <thread>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #ifdef WIN32
+#include <shellapi.h>
 #include <windows.h>
 #include <winioctl.h>
-#include <shellapi.h>
-#endif // WIN32
-
+#endif  // WIN32

@@ -15,10 +15,20 @@ class TestLayer : public kr::Layer, public kr::Loggable {
   void OnUiUpdate() override { ImPlot::ShowDemoWindow(); }
 };
 
+class TestLoggable : public kr::Loggable {
+ public:
+  TestLoggable(const kr::Loggable *loggable) : kr::Loggable(loggable) { logger->info("Logger test! {}", 321); }
+};
+
 kr::Application *kr::CreateApp() {
-  KR_TRACE("*** Trace Log Test ***");
-  KR_INFO("*** Layers Test ***");
+  KR_TRACE("*** Trace Log Test ***");  // Deprecated
+  KR_INFO("*** Layers Test ***");      // Deprecated
+
+  auto layer = std::make_shared<TestLayer>();
   auto app = new kr::Application("Layers Test");
-  app->AttachLayer(std::move(std::make_shared<TestLayer>()));
+  app->AttachLayer(layer);
+
+  auto loggable = TestLoggable(layer.get());  // Child loggable with the same logger
+
   return app;
 }

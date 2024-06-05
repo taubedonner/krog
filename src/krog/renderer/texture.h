@@ -10,7 +10,7 @@ namespace kr::gl {
 
 class Texture2D {
  public:
-  Texture2D() : Texture2D(nullptr, 1, 1, GL_RGBA32F, GL_RGBA, GL_UNSIGNED_BYTE){};
+  Texture2D() : Texture2D(nullptr, 1, 1, GL_RGBA32F, GL_RGBA, GL_UNSIGNED_BYTE) {};
 
   Texture2D(const GLubyte* data, GLsizei width, GLsizei height, GLint internalFormat, GLenum pixelFormat, GLenum pixelType);
 

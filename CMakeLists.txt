@@ -20,7 +20,7 @@ if (WIN32)
     add_definitions("-DUNICODE" "-D_UNICODE")
 endif ()
 
-include(cmake/dependencies.cmake)
+include(cmake/Dependencies.cmake)
 
 add_subdirectory(lib)
 add_subdirectory(src)

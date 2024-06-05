@@ -11,8 +11,7 @@
 
 namespace kr {
 
-AVCapture::AVCapture(std::string filename, bool repeat)
-    : m_Filename(std::move(filename)), m_Repeat(repeat), m_PollingThread(std::make_unique<ThreadWrapper>()) {
+AVCapture::AVCapture(std::string filename, bool repeat) : m_Filename(std::move(filename)), m_Repeat(repeat), m_PollingThread(std::make_unique<ThreadWrapper>()) {
   m_Id = std::format("V{:0>16X}", reinterpret_cast<ptrdiff_t>(this));
   m_Name = std::filesystem::path(m_Filename).filename().string();
 }
@@ -220,8 +219,7 @@ void AVCapture::CaptureWorker() {
     }
 
     while (true) {
-      if (auto status = avcodec_receive_frame(m_CodecContext.get(), hwFrame.get());
-          (status == AVERROR(EAGAIN)) || (status == AVERROR_EOF)) {
+      if (auto status = avcodec_receive_frame(m_CodecContext.get(), hwFrame.get()); (status == AVERROR(EAGAIN)) || (status == AVERROR_EOF)) {
         break;
       } else if (status < 0) {
         KR_ERROR("Error while receiving new frame ({:#x})", status);
@@ -247,8 +245,7 @@ void AVCapture::CaptureWorker() {
       auto image = std::make_shared<gl::Image2D>(m_Width, m_Height, m_PixelFormat, m_PixelType, std::vector<uint8_t>(size));
 
       if (!swsContext) {
-        swsContext.reset(sws_getCachedContext(swsContext.get(), m_Width, m_Height, swpt, m_Width, m_Height, frameFormat, SWS_FAST_BILINEAR,
-                                              nullptr, nullptr, nullptr));
+        swsContext.reset(sws_getCachedContext(swsContext.get(), m_Width, m_Height, swpt, m_Width, m_Height, frameFormat, SWS_FAST_BILINEAR, nullptr, nullptr, nullptr));
       }
 
       if (auto status = sws_scale_frame(swsContext.get(), tmpFrame.get(), swFrame.get()); status < 0) {
@@ -256,8 +253,8 @@ void AVCapture::CaptureWorker() {
         continue;
       }
 
-      if (auto status = av_image_copy_to_buffer(image->GetData().data(), size, tmpFrame->data, tmpFrame->linesize,
-                                                static_cast<AVPixelFormat>(tmpFrame->format), tmpFrame->width, tmpFrame->height, 1);
+      if (auto status = av_image_copy_to_buffer(image->GetData().data(), size, tmpFrame->data, tmpFrame->linesize, static_cast<AVPixelFormat>(tmpFrame->format), tmpFrame->width,
+                                                tmpFrame->height, 1);
           status < 0) {
         KR_WARN("Failed to copy resulting frame ({:#x})", status);
         continue;

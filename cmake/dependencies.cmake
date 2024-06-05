@@ -8,6 +8,20 @@ include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 
 set(BUILD_SHARED_LIBS ON)
 
+#### clang-format & cmake-format ####
+CPMAddPackage(
+  NAME ClangFormat.cmake
+  GIT_TAG origin/master
+  GITHUB_REPOSITORY taubedonner/Format.cmake
+  OPTIONS 
+      "FORMAT_SKIP_CMAKE YES"
+      "FORMAT_SKIP_CLANG NO"
+      #"CMAKE_FORMAT_EXCLUDE cmake/CPM.cmake"
+)
+
+#### GroupSourcesByFolder.cmake ####
+CPMAddPackage("gh:taubedonner/GroupSourcesByFolder.cmake#origin/master")
+
 #### yaml-cpp ####
 CPMAddPackage("gh:jbeder/yaml-cpp#0.8.0")
 

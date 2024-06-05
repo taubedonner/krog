@@ -87,3 +87,5 @@ target_link_libraries(krog_shared PUBLIC
         $<$<BOOL:${KR_USE_FFMPEG}>:FFmpeg::libav>)
 
 add_library(Krog::Krog ALIAS krog_shared)
+
+GroupSourcesByFolder(krog_shared)

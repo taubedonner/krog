@@ -21,13 +21,13 @@ class Layer {
     OnAttach();
   }
 
-  virtual void OnAttach(){};
+  virtual void OnAttach() {};
 
-  virtual void OnDetach(){};
+  virtual void OnDetach() {};
 
-  virtual void OnUpdate(){};
+  virtual void OnUpdate() {};
 
-  virtual void OnUiUpdate(){};
+  virtual void OnUiUpdate() {};
 
   std::string GetName();
 

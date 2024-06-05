@@ -81,7 +81,7 @@ class CaptureListener {
  public:
   virtual ~CaptureListener() = 0;
 
-  virtual void OnNewFrame(const std::string& id, const std::shared_ptr<gl::Image2D>& frame){};
+  virtual void OnNewFrame(const std::string& id, const std::shared_ptr<gl::Image2D>& frame) {};
 
  private:
   eventpp::ScopedRemover<Capture::CallbackList> m_Remover;

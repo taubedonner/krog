@@ -16,7 +16,9 @@ const std::shared_ptr<spdlog::logger> &GetCoreLogger();
 
 class Loggable {
  public:
-  explicit Loggable(std::string name);
+  explicit Loggable(std::string name);  // Create new logger with unique name
+
+  explicit Loggable(const Loggable *loggable);  // Inherit existing logger for other class (abstract)
 
   virtual ~Loggable() = default;
 

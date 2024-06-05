@@ -14,7 +14,7 @@ class Event {
   using Hash = std::size_t;
   using Ptr = std::shared_ptr<Event>;
 
-  explicit Event(int priority = 0) : m_Priority(priority){};
+  explicit Event(int priority = 0) : m_Priority(priority) {};
 
   virtual ~Event() = default;
 

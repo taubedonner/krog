@@ -79,7 +79,7 @@ class WindowEventListener {
  public:
   virtual ~WindowEventListener() = 0;
 
-  virtual void OnWindowEvent(const SDL_Event *event){};
+  virtual void OnWindowEvent(const SDL_Event *event) {};
 
  private:
   eventpp::ScopedRemover<Window::EventCallbackList> m_Remover;
