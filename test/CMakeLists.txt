@@ -16,8 +16,14 @@ add_executable(krog_test_layers_exec)
 target_sources(krog_test_layers_exec PRIVATE layers_entry.cc)
 target_link_libraries(krog_test_layers_exec PRIVATE Krog::Krog)
 
-set(DEP_DLLS $<TARGET_FILE:SDL3::SDL3> $<TARGET_FILE:Krog::Krog> $<TARGET_FILE:fmt::fmt> $<TARGET_FILE:spdlog::spdlog> )
+# Copy shared libraries to the test folder
+set(DEP_TARGETS SDL3::SDL3 Krog::Krog fmt::fmt spdlog::spdlog yaml-cpp)
+
+foreach (dep ${DEP_TARGETS})
+    list(APPEND DEP_TARGET_DLLS $<TARGET_FILE:${dep}>)
+endforeach ()
+
 add_custom_command(
     TARGET krog_test_layers_exec POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${DEP_DLLS} ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${DEP_TARGET_DLLS} ${CMAKE_CURRENT_BINARY_DIR}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
