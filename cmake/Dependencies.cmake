@@ -34,6 +34,7 @@ if (KR_USE_AV)
     list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
     set(ffmpeg_required_components avcodec avdevice avfilter avformat avutil swresample swscale)
     find_package(FFMPEG REQUIRED COMPONENTS ${ffmpeg_required_components})
+    # Generate list of found targets
     set(FFMPEG_TARGETS)
     foreach (component ${ffmpeg_required_components})
         string(PREPEND component "FFMPEG::")

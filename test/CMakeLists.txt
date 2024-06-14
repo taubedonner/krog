@@ -17,7 +17,7 @@ target_sources(krog_test_layers_exec PRIVATE layers_entry.cc)
 target_link_libraries(krog_test_layers_exec PRIVATE Krog::Krog)
 
 # Copy shared libraries to the test folder
-set(DEP_TARGETS SDL3::SDL3 Krog::Krog fmt::fmt spdlog::spdlog yaml-cpp)
+set(DEP_TARGETS SDL3::SDL3 fmt::fmt spdlog::spdlog yaml-cpp)
 
 foreach (dep ${DEP_TARGETS})
     list(APPEND DEP_TARGET_DLLS $<TARGET_FILE:${dep}>)
