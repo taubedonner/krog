@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 project(krog C CXX)
 
 option(KR_BUILD_TESTS "" ON)
-option(KR_USE_FFMPEG "Try to load FFMpeg to use it in kr::AVCapture" OFF)
+option(KR_USE_AV "Use FFmpeg-based tools (src/video)" OFF)
 set(KR_APP_NAME "App" CACHE STRING "App name displayed in log")
 
 if (MSVC)

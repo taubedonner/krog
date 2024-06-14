@@ -12,7 +12,7 @@
 namespace kr {
 
 AVCapture::AVCapture(std::string filename, bool repeat) : m_Filename(std::move(filename)), m_Repeat(repeat), m_PollingThread(std::make_unique<ThreadWrapper>()) {
-  m_Id = std::format("V{:0>16X}", reinterpret_cast<ptrdiff_t>(this));
+  m_Id = fmt::format("V{:0>16X}", reinterpret_cast<ptrdiff_t>(this));
   m_Name = std::filesystem::path(m_Filename).filename().string();
 }
 

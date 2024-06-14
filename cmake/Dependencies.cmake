@@ -22,6 +22,25 @@ CPMAddPackage(
 #### GroupSourcesByFolder.cmake ####
 CPMAddPackage("gh:taubedonner/GroupSourcesByFolder.cmake#origin/master")
 
+#### FFmpeg ####
+if (KR_USE_AV)
+    # Check for portable (or Windows) FFmpeg instillation paths
+    if ($ENV{FFMPEG_DIR})
+        set(FFMPEG_ROOT $ENV{FFMPEG_DIR})
+    elseif ($ENV{FFMPEG_ROOT})
+        set(FFMPEG_ROOT $ENV{FFMPEG_ROOT})
+    endif ()
+    # Add FindFFMPEG.cmake location to run find_package
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
+    set(ffmpeg_required_components avcodec avdevice avfilter avformat avutil swresample swscale)
+    find_package(FFMPEG REQUIRED COMPONENTS ${ffmpeg_required_components})
+    set(FFMPEG_TARGETS)
+    foreach (component ${ffmpeg_required_components})
+        string(PREPEND component "FFMPEG::")
+        list(APPEND FFMPEG_TARGETS ${component})
+    endforeach ()
+endif ()
+
 #### yaml-cpp ####
 CPMAddPackage("gh:jbeder/yaml-cpp#0.8.0")
 

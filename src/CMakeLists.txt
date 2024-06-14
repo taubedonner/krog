@@ -2,25 +2,28 @@
 # Created by Nikita Zarudniy on 6/29/2023.
 #
 
+set(LIBRARY_NAME ${PROJECT_NAME})
+set(LIBRARY_TARGET_NAME "${LIBRARY_NAME}_lib")
+
 find_package(OpenGL REQUIRED)
 
 add_compile_definitions(SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
 
 #TODO: Replace this with KROG_API exports
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+#set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-# Krog Shared Library Target
+# Krog Library Target
 
-add_library(krog_shared SHARED)
+add_library(${LIBRARY_TARGET_NAME} STATIC)
 
-target_precompile_headers(krog_shared PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch.h>")
+target_precompile_headers(${LIBRARY_TARGET_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch.h>")
 
-target_compile_definitions(krog_shared PRIVATE KROG_EXPORT NOMINMAX)
-target_include_directories(krog_shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-set_target_properties(krog_shared PROPERTIES OUTPUT_NAME "libkrog")
+target_compile_definitions(${LIBRARY_TARGET_NAME} PRIVATE KROG_EXPORT NOMINMAX)
+target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES OUTPUT_NAME "lib${PROJECT_NAME}")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/includes/kr_appname.h.in ${CMAKE_CURRENT_BINARY_DIR}/generated/kr_appname.h)
-target_include_directories(krog_shared PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/generated)
+target_include_directories(${LIBRARY_TARGET_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/generated)
 
 set(HEADERS
         krog/common.h
@@ -44,7 +47,7 @@ set(HEADERS
         krog/ui/imguilayer.h
 
         krog/video/capture.h
-        $<$<BOOL:${KR_USE_FFMPEG}>:krog/video/avcapture.h>
+        $<$<BOOL:${KR_USE_AV}>:krog/video/avcapture.h> # TODO: Fill correct sources
 
         krog/ui/misc/imgui_spectrum.h)
 
@@ -66,13 +69,13 @@ set(SOURCES
         krog/ui/imguilayer.cc
 
         krog/video/capture.cc
-        $<$<BOOL:${KR_USE_FFMPEG}>:krog/video/avcapture.cc>
+        $<$<BOOL:${KR_USE_AV}>:krog/video/avcapture.cc> # TODO: Fill correct sources
 
         krog/ui/misc/imgui_spectrum.cc)
 
-target_sources(krog_shared PRIVATE ${HEADERS} ${SOURCES})
+target_sources(${LIBRARY_TARGET_NAME} PRIVATE ${HEADERS} ${SOURCES})
 
-target_link_libraries(krog_shared PUBLIC
+target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC
         fmt::fmt
         yaml-cpp
         spdlog::spdlog
@@ -84,8 +87,8 @@ target_link_libraries(krog_shared PUBLIC
         ImGui::ImGui
         STB::Image
         IconFontCppHeaders
-        $<$<BOOL:${KR_USE_FFMPEG}>:FFmpeg::libav>)
+        $<$<BOOL:${KR_USE_AV}>:${FFMPEG_TARGETS}>)
 
-add_library(Krog::Krog ALIAS krog_shared)
+add_library(Krog::Krog ALIAS ${LIBRARY_TARGET_NAME})
 
-GroupSourcesByFolder(krog_shared)
+GroupSourcesByFolder(${LIBRARY_TARGET_NAME})
