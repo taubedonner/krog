@@ -18,9 +18,3 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-
-#ifdef WIN32
-#include <shellapi.h>
-#include <windows.h>
-#include <winioctl.h>
-#endif  // WIN32
