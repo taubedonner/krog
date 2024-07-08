@@ -162,6 +162,7 @@ void Init(float fontSize) {
       0x0400, 0x052F,  // Cyrillic + Cyrillic Supplement
       0x2DE0, 0x2DFF,  // Cyrillic Extended-A
       0xA640, 0xA69F,  // Cyrillic Extended-B
+      0x2000, 0x206F,  // General Punctuation
       0x2070, 0x209F,  // Superscripts and Subscripts
       0x2100, 0x214F,  // Letter-like Symbols
       0,
