@@ -158,13 +158,22 @@ void Init(float fontSize) {
 
   static const ImWchar glyphRanges[] = {
       0x0020, 0x00FF,  // Basic Latin + Latin Supplement
+      0x0100, 0x017F,  // Latin Extended-A
+      0x0180, 0x024F,  // Latin Extended-B
       0x0370, 0x03FF,  // Greek and Coptic
       0x0400, 0x052F,  // Cyrillic + Cyrillic Supplement
       0x2DE0, 0x2DFF,  // Cyrillic Extended-A
       0xA640, 0xA69F,  // Cyrillic Extended-B
       0x2000, 0x206F,  // General Punctuation
       0x2070, 0x209F,  // Superscripts and Subscripts
+      0x20A0, 0x20CF,  // Currency Symbols
       0x2100, 0x214F,  // Letter-like Symbols
+      0x2150, 0x218F,  // Number Forms
+      0x2190, 0x21FF,  // Arrows
+      0x2200, 0x22FF,  // Mathematical Operators
+      0x2E00, 0x2E7F,  // Supplemental Punctuation
+      0xA720, 0xA7FF,  // Latin Extended-D
+      0xFFF0, 0xFFFF,  // Specials
       0,
   };
 
