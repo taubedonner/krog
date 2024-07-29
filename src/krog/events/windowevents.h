@@ -39,12 +39,18 @@ class KeyPressEvent : public Event {
  public:
   using Ptr = std::shared_ptr<WindowCloseEvent>;
 
-  explicit KeyPressEvent(const SDL_Event &e) : Event() { m_Key = e.key.keysym; }
+  explicit KeyPressEvent(const SDL_Event &e) : Event() {
+    m_Key = e.key.scancode;
+    m_KeyMod = e.key.mod;
+  }
 
-  [[nodiscard]] auto GetKey() const -> SDL_Keysym { return m_Key; }
+  [[nodiscard]] auto GetKey() const -> SDL_Scancode { return m_Key; }
+
+  [[nodiscard]] auto GetMod() const -> SDL_Keymod { return m_KeyMod; }
 
  private:
-  SDL_Keysym m_Key;
+  SDL_Scancode m_Key;
+  SDL_Keymod m_KeyMod;
 };
 
 }  // namespace kr

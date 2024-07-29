@@ -34,7 +34,7 @@ Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSync
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
-  SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
+  //SDL_SetHint(SDL_HINT_IME_NATIVE_UI, "1");
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -88,8 +88,9 @@ void Window::BeginUpdate() {
     }
 
     if (event.type == SDL_EVENT_KEY_DOWN) {
-      auto &keysym = event.key.keysym;
-      if ((keysym.sym == SDLK_RETURN) && (keysym.mod & SDL_KMOD_ALT)) {
+      auto &keysym = event.key.scancode;
+      auto &keymod = event.key.mod;
+      if ((keysym == SDLK_RETURN) && (keymod & SDL_KMOD_ALT)) {
         auto flag = SDL_GetWindowFlags(m_NativeWindow);
         bool isFullscreen = (flag & SDL_WINDOW_FULLSCREEN);
         SetFullScreen(!isFullscreen);
