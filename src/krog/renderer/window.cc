@@ -90,7 +90,7 @@ void Window::BeginUpdate() {
     if (event.type == SDL_EVENT_KEY_DOWN) {
       auto &keysym = event.key.scancode;
       auto &keymod = event.key.mod;
-      if ((keysym == SDLK_RETURN) && (keymod & SDL_KMOD_ALT)) {
+      if ((keysym == SDL_SCANCODE_RETURN) && (keymod & SDL_KMOD_ALT)) {
         auto flag = SDL_GetWindowFlags(m_NativeWindow);
         bool isFullscreen = (flag & SDL_WINDOW_FULLSCREEN);
         SetFullScreen(!isFullscreen);
