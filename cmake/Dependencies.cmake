@@ -8,6 +8,11 @@ include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 
 set(BUILD_SHARED_LIBS ON)
 
+if (NOT MSVC)
+    # Suppress YAML-CPP yak
+    list(APPEND ${CMAKE_CXX_FLAGS} "-Wno-#pragma-messages")
+endif ()
+
 #### clang-format & cmake-format ####
 CPMAddPackage(
   NAME ClangFormat.cmake
