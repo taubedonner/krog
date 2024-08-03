@@ -33,7 +33,7 @@ CPMAddPackage("gh:jbeder/yaml-cpp#0.8.0")
 
 if (NOT MSVC)
     # Suppress YAML-CPP yak
-    target_compile_options(yaml-cpp PUBLIC "-Wno-#pragma-messages")
+    target_compile_options(yaml-cpp PRIVATE "-Wno-#pragma-messages")
 endif ()
 
 #### Fmt ####

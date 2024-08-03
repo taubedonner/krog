@@ -9,6 +9,11 @@
 #include "krog/ui/imguilayer.h"
 #include "krog/ui/layer.h"
 
+#ifdef _WIN32
+#include "windows.h"
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow);
+#endif
+
 int main(int argc, char **argv);
 
 namespace kr {
@@ -36,8 +41,6 @@ class Application {
   volatile bool m_IsRunning{true};
   std::vector<std::shared_ptr<Layer>> m_Layers;
   ImGuiLayer m_ImGuiLayer;
-
-  friend int ::main(int argc, char **argv);
 };
 
 Application *CreateApp();
