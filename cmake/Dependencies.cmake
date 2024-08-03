@@ -8,11 +8,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 
 set(BUILD_SHARED_LIBS ON)
 
-if (NOT MSVC)
-    # Suppress YAML-CPP yak
-    list(APPEND ${CMAKE_CXX_FLAGS} "-Wno-#pragma-messages")
-endif ()
-
 #### clang-format & cmake-format ####
 CPMAddPackage(
   NAME ClangFormat.cmake
@@ -49,6 +44,11 @@ endif ()
 
 #### yaml-cpp ####
 CPMAddPackage("gh:jbeder/yaml-cpp#0.8.0")
+
+if (NOT MSVC)
+    # Suppress YAML-CPP yak
+    target_compile_options(yaml-cpp PRIVATE "-Wno-#pragma-messages")
+endif ()
 
 #### Fmt ####
 CPMAddPackage("gh:fmtlib/fmt#10.1.0")
