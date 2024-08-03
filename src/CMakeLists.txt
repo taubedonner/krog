@@ -90,5 +90,3 @@ target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC
         $<$<BOOL:${KR_USE_AV}>:${FFMPEG_TARGETS}>)
 
 add_library(Krog::Krog ALIAS ${LIBRARY_TARGET_NAME})
-
-GroupSourcesByFolder(${LIBRARY_TARGET_NAME})
