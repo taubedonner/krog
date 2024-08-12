@@ -99,6 +99,10 @@ void Window::BeginUpdate() {
       EventBus::PushEvent<KeyPressEvent>(event);
     }
 
+    if (event.type == SDL_EVENT_KEY_UP) {
+      EventBus::PushEvent<KeyReleaseEvent>(event);
+    }
+
     if (event.type == SDL_EVENT_WINDOW_RESIZED) {
       auto &resizeEvent = event.window;
       m_WindowConfig.Size.x = resizeEvent.data1;

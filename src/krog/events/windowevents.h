@@ -37,20 +37,31 @@ class WindowResizeEvent : public Event {
 
 class KeyPressEvent : public Event {
  public:
-  using Ptr = std::shared_ptr<WindowCloseEvent>;
+  using Ptr = std::shared_ptr<KeyPressEvent>;
 
   explicit KeyPressEvent(const SDL_Event &e) : Event() {
-    m_Key = e.key.scancode;
-    m_KeyMod = e.key.mod;
+    m_Keycode = e.key.key;
+    m_Scancode = e.key.scancode;
+    m_Keymod = e.key.mod;
   }
 
-  [[nodiscard]] auto GetKey() const -> SDL_Scancode { return m_Key; }
+  [[nodiscard]] auto GetKeycode() const -> SDL_Keycode { return m_Keycode; }
 
-  [[nodiscard]] auto GetMod() const -> SDL_Keymod { return m_KeyMod; }
+  [[nodiscard]] auto GetScancode() const -> SDL_Scancode { return m_Scancode; }
+
+  [[nodiscard]] auto GetMod() const -> SDL_Keymod { return m_Keymod; }
 
  private:
-  SDL_Scancode m_Key;
-  SDL_Keymod m_KeyMod;
+  SDL_Keycode  m_Keycode;
+  SDL_Scancode m_Scancode;
+  SDL_Keymod m_Keymod;
+};
+
+class KeyReleaseEvent : public KeyPressEvent {
+ public:
+  using Ptr = std::shared_ptr<KeyReleaseEvent>;
+
+  explicit KeyReleaseEvent(const SDL_Event &e) : KeyPressEvent(e) {}
 };
 
 }  // namespace kr
