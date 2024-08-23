@@ -36,6 +36,8 @@ class Application {
 
   void SetTheme(ImGuiLayer::Theme theme) { m_ImGuiLayer.SetTheme(theme); }
 
+  ImGuiLayer::Theme GetTheme() { return m_ImGuiLayer.GetTheme(); };
+
  private:
   void OnWindowCloseEvent(const WindowCloseEvent::Ptr &);
 

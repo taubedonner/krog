@@ -15,7 +15,9 @@ class ImGuiLayer : public Layer, public WindowEventListener {
   enum class Theme {
     System,
     Light,
-    Dark
+    Dark,
+
+    Count
   };
 
   ImGuiLayer() : Layer("ImGui Layer") {}
