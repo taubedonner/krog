@@ -12,7 +12,22 @@ class TestLayer : public kr::Layer, public kr::Loggable {
   TestLayer() : kr::Layer("Test Layer"), kr::Loggable("Test") { logger->info("Logger test! {}", 123); }
 
  private:
-  void OnUiUpdate() override { ImPlot::ShowDemoWindow(); }
+  void OnUiUpdate() override {
+    ImPlot::ShowDemoWindow();
+
+    static int th = 0;
+    if (ImGui::Button("Switch Theme")) {
+      th = (th + 1) % 3;
+      if (th == 0) m_Application->SetTheme(kr::ImGuiLayer::Theme::System);
+      if (th == 1) m_Application->SetTheme(kr::ImGuiLayer::Theme::Dark);
+      if (th == 2) m_Application->SetTheme(kr::ImGuiLayer::Theme::Light);
+    }
+
+    ImGui::SameLine();
+    if (th == 0) ImGui::TextUnformatted("System");
+    if (th == 1) ImGui::TextUnformatted("Dark");
+    if (th == 2) ImGui::TextUnformatted("Light");
+  }
 };
 
 class TestLoggable : public kr::Loggable {

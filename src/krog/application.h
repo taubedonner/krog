@@ -34,6 +34,8 @@ class Application {
 
   [[nodiscard]] auto GetWindow() const -> auto & { return m_Window; }
 
+  void SetTheme(ImGuiLayer::Theme theme) { m_ImGuiLayer.SetTheme(theme); }
+
  private:
   void OnWindowCloseEvent(const WindowCloseEvent::Ptr &);
 

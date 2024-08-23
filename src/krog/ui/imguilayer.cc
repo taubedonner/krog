@@ -29,13 +29,7 @@ void ImGuiLayer::OnAttach() {
 
   ImGui::Spectrum::Init();
 
-  auto theme = SDL_GetSystemTheme();
-
-  if (theme == SDL_SYSTEM_THEME_LIGHT) {
-    ImGui::Spectrum::StyleColorsLight();
-  } else {
-    ImGui::Spectrum::StyleColorsDark();
-  }
+  UpdateTheme();
 
   const char* glsl_version = "#version 330 core";
   ImGui_ImplSDL3_InitForOpenGL(SDL_GL_GetCurrentWindow(), SDL_GL_GetCurrentContext());
@@ -62,12 +56,10 @@ void ImGuiLayer::EndUiUpdate() { ImGui::Render(); }
 void ImGuiLayer::OnWindowEvent(const SDL_Event* event) {
   ImGui_ImplSDL3_ProcessEvent(event);
 
-  if (event->type == SDL_EVENT_SYSTEM_THEME_CHANGED) {
+  if (m_SelectedTheme == Theme::System && event->type == SDL_EVENT_SYSTEM_THEME_CHANGED) {
     if (SDL_GetSystemTheme() == SDL_SystemTheme::SDL_SYSTEM_THEME_LIGHT) {
-      // ImGui::StyleColorsLight();
       ImGui::Spectrum::StyleColorsLight();
     } else {
-      // ImGui::StyleColorsDark();
       ImGui::Spectrum::StyleColorsDark();
     }
   }
@@ -82,6 +74,29 @@ void ImGuiLayer::OnUpdate() {
     ImGui::UpdatePlatformWindows();
     ImGui::RenderPlatformWindowsDefault();
     SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+  }
+}
+
+void ImGuiLayer::SetTheme(ImGuiLayer::Theme theme) {
+  m_SelectedTheme = theme;
+  UpdateTheme();
+}
+
+ImGuiLayer::Theme ImGuiLayer::GetTheme() {
+  return m_SelectedTheme;
+}
+
+void ImGuiLayer::UpdateTheme() {
+  if (!ImGui::GetCurrentContext()) return;
+
+  if (m_SelectedTheme == Theme::Dark) ImGui::Spectrum::StyleColorsDark();
+  if (m_SelectedTheme == Theme::Light) ImGui::Spectrum::StyleColorsLight();
+  if (m_SelectedTheme == Theme::System) {
+    if (SDL_GetSystemTheme() == SDL_SystemTheme::SDL_SYSTEM_THEME_LIGHT) {
+      ImGui::Spectrum::StyleColorsLight();
+    } else {
+      ImGui::Spectrum::StyleColorsDark();
+    }
   }
 }
 

@@ -21,6 +21,8 @@ Application::Application(std::string appName) {
   windowConfig.FpsLimit = appNode["fps_limit"].as<double>(300);
   windowConfig.SwapInterval = appNode["swap_interval"].as<int>(0);
   windowConfig.IsFullscreen = appNode["fullscreen"].as<bool>(false);
+  int theme = static_cast<int>(ImGuiLayer::Theme::System);
+  m_ImGuiLayer.SetTheme(static_cast<ImGuiLayer::Theme>(appNode["theme"].as<int>(theme)));
 
   if (!windowConfig.IsFullscreen) {
     windowConfig.Size.x = appNode["width"].as<int>(1600);
@@ -94,6 +96,9 @@ Application::~Application() {
   appNode["fullscreen"] = m_Window->IsFullscreen();
   appNode["width"] = m_Window->GetWidth();
   appNode["height"] = m_Window->GetHeight();
+
+  int theme = static_cast<int>(m_ImGuiLayer.GetTheme());
+  appNode["theme"] = theme;
 
   PersistentConfig::Save();
 }
