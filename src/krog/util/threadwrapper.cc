@@ -18,4 +18,8 @@ void ThreadWrapper::Detach() {
   }
 }
 
+std::thread::id ThreadWrapper::GetId() {
+  return m_Thread.get_id();
+}
+
 }  // namespace kr

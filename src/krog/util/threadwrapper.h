@@ -14,7 +14,10 @@ class ThreadWrapper {
   ~ThreadWrapper();
 
   void Attach(std::thread&& thread);
+
   void Detach();
+
+  std::thread::id GetId();
 
  private:
   std::thread m_Thread{};
