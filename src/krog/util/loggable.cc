@@ -97,4 +97,8 @@ Loggable::Loggable(const Loggable *loggable) : logger(loggable ? loggable->logge
   }
 }
 
+std::shared_ptr<spdlog::logger> Loggable::GetLogger() {
+  return logger;
+}
+
 }  // namespace kr

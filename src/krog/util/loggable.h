@@ -22,6 +22,8 @@ class Loggable {
 
   virtual ~Loggable() = default;
 
+  std::shared_ptr<spdlog::logger> GetLogger();
+
  protected:
   std::shared_ptr<spdlog::logger> logger{};
 };
