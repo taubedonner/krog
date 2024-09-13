@@ -137,6 +137,7 @@ void Init(float fontSize) {
   style.PopupBorderSize = 1;
   style.FrameBorderSize = 1;
   style.TabBorderSize = 1;
+  style.TabBarOverlineSize = 0;
 
   style.WindowRounding = 6.0f;
   style.ChildRounding = 6.0f;
