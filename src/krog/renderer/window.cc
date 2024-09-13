@@ -104,9 +104,13 @@ void Window::BeginUpdate() {
     }
 
     if (event.type == SDL_EVENT_WINDOW_RESIZED) {
-      auto &resizeEvent = event.window;
-      m_WindowConfig.Size.x = resizeEvent.data1;
-      m_WindowConfig.Size.y = resizeEvent.data2;
+      auto &windowEvent = event.window;
+
+      // TODO: Pass window ID to event payload
+      if (windowEvent.windowID == SDL_GetWindowID(m_NativeWindow)) {
+        m_WindowConfig.Size.x = windowEvent.data1;
+        m_WindowConfig.Size.y = windowEvent.data2;
+      }
     }
 
     m_EventCallbackList(&event);
