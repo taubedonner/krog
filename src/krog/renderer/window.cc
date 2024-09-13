@@ -24,7 +24,7 @@ void GLAPIENTRY MessageCallback([[maybe_unused]] GLenum source, GLenum type, GLu
 }
 
 Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSynchronizer(config.FpsLimit) {
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMEPAD) != 0) {
+  if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMEPAD)) {
     KR_ERROR("SDL_Init(): {}", SDL_GetError());
     std::exit(1);
   }
