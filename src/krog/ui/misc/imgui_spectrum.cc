@@ -183,9 +183,9 @@ void Init(float fontSize) {
 
   ImFontConfig config2;
   config2.MergeMode = true;
-  config2.GlyphOffset = {-3.0f, 3.25f};
-  config2.GlyphMinAdvanceX = props.IconSize.x;
-  config2.GlyphMaxAdvanceX = props.IconSize.x;
+  config2.GlyphOffset = {0.0f, 3.0f};
+  config2.GlyphMinAdvanceX = 16;
+  config2.GlyphMaxAdvanceX = 16;
   static const ImWchar iconRanges[] = {ICON_MIN_CI, ICON_MAX_CI, 0};
   fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryCompressedTTF(TTF_CODICON_compressed_data, TTF_CODICON_compressed_size, props.FontSize, &config2, iconRanges);
 
