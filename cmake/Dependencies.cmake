@@ -63,8 +63,8 @@ CPMAddPackage("gh:wqking/eventpp@0.1.2")
 #### ImGui ####
 CPMAddPackage(
         GITHUB_REPOSITORY ocornut/imgui
-        VERSION 1.91.2-WIP
-        GIT_TAG 8326dabe5e74a06cbd0adaf2b140c628bd5694c3
+        VERSION 1.91.3-WIP
+        GIT_TAG d7cedd648b0a6809c62d3d363efb2fe08dca00eb
         DOWNLOAD_ONLY True
 )
 
