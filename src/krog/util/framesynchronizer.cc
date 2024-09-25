@@ -25,4 +25,8 @@ void FrameSynchronizer::SetFps(double fps) {
   }
 }
 
+void FrameSynchronizer::SetInterval(std::chrono::duration<double> interval) {
+  m_FrameTime = interval;
+}
+
 }  // namespace kr

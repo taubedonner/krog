@@ -16,6 +16,8 @@ class FrameSynchronizer {
 
   void SetFps(double fps);
 
+  void SetInterval(std::chrono::duration<double> interval);
+
  private:
   bool m_IsUnlimited{false};
   std::chrono::duration<double> m_FrameTime{1.0};
