@@ -18,9 +18,14 @@ int main(int argc, char **argv);
 
 namespace kr {
 
+struct AppProps {
+  std::string Name;    // Using in filesystem and default for Title
+  std::string Title{}; // Using in title bar
+};
+
 class Application {
  public:
-  explicit Application(std::string appName);
+  explicit Application(const AppProps& props);
 
   ~Application();
 
@@ -38,9 +43,12 @@ class Application {
 
   ImGuiLayer::Theme GetTheme() { return m_ImGuiLayer.GetTheme(); };
 
+  std::filesystem::path GetAppDataPath();
+
  private:
   void OnWindowCloseEvent(const WindowCloseEvent::Ptr &);
 
+  std::string m_Name{};
   std::unique_ptr<Window> m_Window;
   volatile bool m_IsRunning{true};
   std::vector<std::shared_ptr<Layer>> m_Layers;

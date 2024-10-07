@@ -6,10 +6,17 @@
 #include <krog/common.h>
 #include <krog/entry.h>
 #include <krog/ui/layer.h>
+#include <krog/util/filesystem.h>
 
 class TestLayer : public kr::Layer, public kr::Loggable {
  public:
-  TestLayer() : kr::Layer("Test Layer"), kr::Loggable("Test") { logger->info("Logger test! {}", 123); }
+  TestLayer() : kr::Layer("Test Layer"), kr::Loggable("Test") {
+    logger->info("Logger test! {}", 123);
+  }
+
+  void OnAttach() override {
+    logger->info("Application Data: {}", this->GetApplication()->GetAppDataPath().string());
+  }
 
  private:
   void OnUiUpdate() override {
@@ -32,15 +39,15 @@ class TestLayer : public kr::Layer, public kr::Loggable {
 
 class TestLoggable : public kr::Loggable {
  public:
-  TestLoggable(const kr::Loggable *loggable) : kr::Loggable(loggable) { logger->info("Logger test! {}", 321); }
+  explicit TestLoggable(const kr::Loggable *loggable) : kr::Loggable(loggable) { logger->info("Logger test! {}", 321); }
 };
 
 kr::Application *kr::CreateApp() {
   KR_TRACE("*** Trace Log Test ***");  // Deprecated
   KR_INFO("*** Layers Test ***");      // Deprecated
 
+  auto app = new kr::Application({"Krog Layers Test"});
   auto layer = std::make_shared<TestLayer>();
-  auto app = new kr::Application("Layers Test");
   app->AttachLayer(layer);
 
   auto loggable = TestLoggable(layer.get());  // Child loggable with the same logger

@@ -10,22 +10,27 @@
 #include <imgui.h>
 #include <implot.h>
 
+#include "krog/application.h"
 #include "misc/imgui_spectrum.h"
 
 namespace kr {
 
 void ImGuiLayer::OnAttach() {
+  m_IniFilename = GetApplication()->GetAppDataPath().append("imgui.ini").string();
+
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
   ImPlot::CreateContext();
   ImGuiIO& io = ImGui::GetIO();
-  (void)io;
+  io.IniFilename = nullptr;
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
   io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
   io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;    // Enable Multi-Viewport / Platform Windows
   // io.ConfigViewportsNoAutoMerge = true;
   // io.ConfigViewportsNoTaskBarIcon = true;
+
+  LoadIniSettingsFromDisk();
 
   ImGui::Spectrum::Init();
 
@@ -37,6 +42,7 @@ void ImGuiLayer::OnAttach() {
 }
 
 void ImGuiLayer::OnDetach() {
+  SaveIniSettingsToDisk();
   ImPlot::DestroyContext();
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL3_Shutdown();
@@ -51,7 +57,14 @@ void ImGuiLayer::BeginUiUpdate() {
   // ImGui::Spectrum::ShowStyleEditor(nullptr);
 }
 
-void ImGuiLayer::EndUiUpdate() { ImGui::Render(); }
+void ImGuiLayer::EndUiUpdate() {
+  ImGui::Render();
+
+  if (auto& io = ImGui::GetIO(); io.WantSaveIniSettings) {
+    SaveIniSettingsToDisk();
+    io.WantSaveIniSettings = false;
+  }
+}
 
 void ImGuiLayer::OnWindowEvent(const SDL_Event* event) {
   ImGui_ImplSDL3_ProcessEvent(event);
@@ -82,9 +95,7 @@ void ImGuiLayer::SetTheme(ImGuiLayer::Theme theme) {
   UpdateTheme();
 }
 
-ImGuiLayer::Theme ImGuiLayer::GetTheme() {
-  return m_SelectedTheme;
-}
+ImGuiLayer::Theme ImGuiLayer::GetTheme() { return m_SelectedTheme; }
 
 void ImGuiLayer::UpdateTheme() {
   if (!ImGui::GetCurrentContext()) return;
@@ -98,6 +109,24 @@ void ImGuiLayer::UpdateTheme() {
       ImGui::Spectrum::StyleColorsDark();
     }
   }
+}
+
+bool ImGuiLayer::LoadIniSettingsFromDisk() {
+  std::stringstream ss;
+  std::ifstream settings(m_IniFilename);
+  if (!settings.is_open()) return false;
+  ss << settings.rdbuf();
+  ImGui::LoadIniSettingsFromMemory(ss.str().c_str(), ss.str().size());
+  return true;
+}
+
+bool ImGuiLayer::SaveIniSettingsToDisk() {
+  size_t size;
+  auto data = ImGui::SaveIniSettingsToMemory(&size);
+  std::ofstream settings(m_IniFilename);
+  if (!settings.is_open()) return false;
+  settings.write(data, (std::streamsize)size);
+  return true;
 }
 
 }  // namespace kr

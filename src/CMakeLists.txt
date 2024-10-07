@@ -33,6 +33,7 @@ set(HEADERS
         krog/util/persistentconfig.h
         krog/util/threadwrapper.h
         krog/util/imageloader.h
+        krog/util/filesystem.h
 
         krog/renderer/formats.h
         krog/renderer/window.h
@@ -57,6 +58,8 @@ set(SOURCES
         krog/util/framesynchronizer.cc
         krog/util/persistentconfig.cc
         krog/util/threadwrapper.cc
+        $<$<BOOL:${WIN32}>:krog/util/filesystem_win32.cc>
+        $<$<BOOL:${UNIX}>:krog/util/filesystem_unix.cc>
 
         krog/renderer/formats.cc
         krog/renderer/window.cc
@@ -76,6 +79,7 @@ set(SOURCES
 target_sources(${LIBRARY_TARGET_NAME} PRIVATE ${HEADERS} ${SOURCES})
 
 target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC
+        #nowide::nowide
         fmt::fmt
         yaml-cpp
         spdlog::spdlog

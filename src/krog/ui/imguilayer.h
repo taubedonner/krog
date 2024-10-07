@@ -41,7 +41,12 @@ class ImGuiLayer : public Layer, public WindowEventListener {
  private:
   void UpdateTheme();
 
+  bool LoadIniSettingsFromDisk();
+
+  bool SaveIniSettingsToDisk();
+
   Theme m_SelectedTheme{Theme::System};
+  std::string m_IniFilename{"imgui.ini"};
 };
 
 }  // namespace kr

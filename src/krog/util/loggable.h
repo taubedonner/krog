@@ -6,13 +6,15 @@
 
 #include <spdlog/spdlog.h>
 
+#include <filesystem>
+
 namespace kr {
 
-void RegisterLogger(std::shared_ptr<spdlog::logger> &logger);
+void RegisterLogger(std::shared_ptr<spdlog::logger> &logger); // TODO: Move to Application context
 
-const std::shared_ptr<spdlog::logger> &GetLogger();
+void SetLogFilePath(const std::filesystem::path &path); // TODO: Move to Application context
 
-const std::shared_ptr<spdlog::logger> &GetCoreLogger();
+const std::shared_ptr<spdlog::logger> &GetCoreLogger(); // TODO: Move to Application context
 
 class Loggable {
  public:

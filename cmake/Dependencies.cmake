@@ -36,6 +36,9 @@ if (NOT MSVC)
     target_compile_options(yaml-cpp PRIVATE "-Wno-#pragma-messages")
 endif ()
 
+#### Boost.Nowide ####
+#CPMAddPackage("gh:boostorg/nowide#origin/standalone")
+
 #### Fmt ####
 CPMAddPackage("gh:fmtlib/fmt#10.1.0")
 

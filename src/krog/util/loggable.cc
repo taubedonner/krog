@@ -15,14 +15,18 @@
 namespace kr {
 
 static std::mutex s_InitMutex;
-static std::shared_ptr<spdlog::logger> s_Logger{nullptr};
 static std::shared_ptr<spdlog::logger> s_CoreLogger{nullptr};
 static std::vector<spdlog::sink_ptr> s_Sinks{};
 
+static std::filesystem::path s_LoggerPath{"."};
+
 static void SetupSinks() {
   if (s_Sinks.empty()) {
+    std::filesystem::path logFile = s_LoggerPath;
+    logFile /= ("application.log");
+
     s_Sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
-    s_Sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("application.log", true));
+    s_Sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFile.string(), true));
     s_Sinks[0]->set_pattern("%^[%n] [%L %T PID:%P THR:%t] %v%$");  // stdout
     s_Sinks[1]->set_pattern("[%n] [%L %T PID:%P THR:%t] %v");      // file
   }
@@ -39,24 +43,8 @@ void RegisterLogger(std::shared_ptr<spdlog::logger> &logger) {
   spdlog::register_logger(logger);
 }
 
-const std::shared_ptr<spdlog::logger> &GetLogger() {
-  if (!s_Logger) {
-    std::lock_guard<std::mutex> lock(s_InitMutex);
-    if (!s_Logger) {
-#ifdef _WIN32
-      SetConsoleOutputCP(CP_UTF8);
-#endif
-
-      SetupSinks();
-
-      s_Logger = std::make_shared<spdlog::logger>(KR_APP_NAME, std::begin(s_Sinks), std::end(s_Sinks));
-      s_Logger->set_level(spdlog::level::trace);
-      s_Logger->flush_on(spdlog::level::trace);
-      spdlog::register_logger(s_Logger);
-    }
-  }
-
-  return s_Logger;
+void SetLogFilePath(const std::filesystem::path& path) {
+  s_LoggerPath = path;
 }
 
 const std::shared_ptr<spdlog::logger> &GetCoreLogger() {

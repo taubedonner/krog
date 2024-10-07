@@ -10,11 +10,19 @@
 #include "krog/ui/imguilayer.h"
 #include "krog/util/persistentconfig.h"
 
-namespace kr {
-Application::Application(std::string appName) {
-  WindowConfig windowConfig = {std::move(appName)};
+#include "krog/util/filesystem.h"
 
-  PersistentConfig::Init("./config.yml");
+namespace kr {
+Application::Application(const AppProps& props) {
+  WindowConfig windowConfig{};
+
+  if (props.Title.empty()) windowConfig.Title = props.Name;
+  else windowConfig.Title = props.Title;
+
+  m_Name = props.Name;
+
+  SetLogFilePath(GetAppDataPath());
+  PersistentConfig::Init(GetAppDataPath().append("config.yml").string());
 
   auto& conf = PersistentConfig::GetRoot();
   auto appNode = conf["application"];
@@ -101,6 +109,17 @@ Application::~Application() {
   appNode["theme"] = theme;
 
   PersistentConfig::Save();
+}
+
+std::filesystem::path Application::GetAppDataPath() {
+  std::filesystem::path appDataPath = kr::fs::GetUserConfigDir();
+  appDataPath /= m_Name;
+
+  if (!std::filesystem::exists(appDataPath)) {
+    std::filesystem::create_directories(appDataPath);
+  }
+
+  return appDataPath;
 }
 
 }  // namespace kr
