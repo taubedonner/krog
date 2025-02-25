@@ -12,6 +12,12 @@ option(KR_BUILD_TESTS "" ON)
 option(KR_USE_AV "Use FFmpeg-based tools (src/video)" OFF)
 set(KR_APP_NAME "App" CACHE STRING "App name displayed in log")
 
+if(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+    set(KR_RUNTIME_OUTPUT_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+else()
+    set(KR_RUNTIME_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+endif()
+
 if (MSVC)
     string(REPLACE "/W3" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif ()
