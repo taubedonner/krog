@@ -199,9 +199,9 @@ void Init(float fontSize) {
     ImFontConfig config2;
     config2.MergeMode = true;
     config2.GlyphOffset = {0.5f, 3.0f};
-    config2.RasterizerDensity = 1.5f;
-    config2.GlyphMinAdvanceX = 18;
-    config2.GlyphMaxAdvanceX = 18;
+    config2.RasterizerDensity = 2.0f;
+    config2.GlyphMinAdvanceX = 16;
+    config2.GlyphMaxAdvanceX = 16;
     config2.FontDataOwnedByAtlas = true;
     static const ImWchar iconRanges[] = {CarbonIcons::_GlyphMin, CarbonIcons::_GlyphMax, 0};
     fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize + 2.0f, &config2, iconRanges);
@@ -333,9 +333,11 @@ void StyleColorsLight() {
   colors[ImGuiCol_PlotHistogram] = Light(CELERY500);
   colors[ImGuiCol_PlotHistogramHovered] = Light(CELERY700);
   colors[ImGuiCol_TableHeaderBg] = Light(GRAY100);
-  colors[ImGuiCol_TableBorderStrong] = Light(GRAY300);
-  colors[ImGuiCol_TableBorderLight] = Light(GRAY300);
-  colors[ImGuiCol_TableRowBg] = Light(GRAY75);
+  colors[ImGuiCol_TableBorderStrong] = Light(GRAY400);
+  auto tableBorderLight = Light(GRAY400);
+  tableBorderLight.w = 0.80f;
+  colors[ImGuiCol_TableBorderLight] = tableBorderLight;
+  colors[ImGuiCol_TableRowBg] = Light(GRAY200);
   colors[ImGuiCol_TableRowBgAlt] = Light(GRAY100);
   colors[ImGuiCol_TextSelectedBg] = Light(BLUE200);
   colors[ImGuiCol_DragDropTarget] = Light(BLUE500);
