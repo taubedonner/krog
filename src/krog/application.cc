@@ -22,6 +22,7 @@ Application::Application(const AppProps& props) {
 
   m_Name = props.Name;
 
+  // TODO: Create wrappers for PhysFS
   if (!PHYSFS_init(nullptr)) {
     std::cerr << "Failed to init PhysicsFS" << std::endl;
     exit(-1);

@@ -98,7 +98,7 @@ add_library(Krog::Krog ALIAS ${LIBRARY_TARGET_NAME})
 
 # Asset baking
 set(ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
-set(ARCHIVE_PATH "Data/krog_fonts.pak")
+set(ARCHIVE_PATH "Data/krog_base.pak")
 cmake_path(APPEND KR_RUNTIME_OUTPUT_DIR "Data" OUTPUT_VARIABLE DATA_PATH)
 cmake_path(APPEND KR_RUNTIME_OUTPUT_DIR ${ARCHIVE_PATH} OUTPUT_VARIABLE OUTPUT_ARCHIVE)
 
@@ -144,4 +144,4 @@ add_custom_command(
         COMMENT "Creating archive: ${OUTPUT_ARCHIVE}"
 )
 
-message(STATUS "Archive will be created at: ${OUTPUT_ARCHIVE}")
+message(STATUS "Krog assets archive will be created at: ${OUTPUT_ARCHIVE}")
