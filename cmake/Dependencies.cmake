@@ -36,9 +36,6 @@ if (NOT MSVC)
     target_compile_options(yaml-cpp PRIVATE "-Wno-#pragma-messages")
 endif ()
 
-#### Boost.Nowide ####
-#CPMAddPackage("gh:boostorg/nowide#origin/standalone")
-
 #### Fmt ####
 CPMAddPackage("gh:fmtlib/fmt#10.1.0")
 
@@ -62,6 +59,27 @@ CPMAddPackage("gh:libsdl-org/SDL#d3932b1ba2e8d3936095443b6692580659598175")
 #### Eventpp ####
 CPMAddPackage("gh:wqking/eventpp@0.1.2")
 
+#### PhysicsFS ####
+CPMAddPackage(
+        NAME physfs
+        VERSION 3.2.0
+        GITHUB_REPOSITORY "icculus/physfs"
+        GIT_TAG "origin/main"
+        OPTIONS
+            "PHYSFS_ARCHIVE_LECARCHIVES Off"
+            "PHYSFS_ARCHIVE_VDF Off"
+            "PHYSFS_ARCHIVE_ISO9660 Off"
+            "PHYSFS_ARCHIVE_SLB Off"
+            "PHYSFS_ARCHIVE_QPAK Off"
+            "PHYSFS_ARCHIVE_MVL Off"
+            "PHYSFS_ARCHIVE_HOG Off"
+            "PHYSFS_ARCHIVE_CSM Off"
+            "PHYSFS_ARCHIVE_WAD Off"
+            "PHYSFS_ARCHIVE_GRP Off"
+            "PHYSFS_BUILD_STATIC On"
+            "PHYSFS_BUILD_SHARED Off"
+            "PHYSFS_DISABLE_INSTALL On"
+)
 
 #### ImGui ####
 CPMAddPackage(
@@ -121,17 +139,3 @@ endif ()
 add_library(ImGui::ImGui ALIAS imgui_object)
 
 add_executable(binary_to_compressed ${imgui_SOURCE_DIR}/misc/fonts/binary_to_compressed_c.cpp)
-
-
-#### IconFontCppHeaders ####
-CPMAddPackage(
-        NAME ifch
-        GITHUB_REPOSITORY juliettef/IconFontCppHeaders
-        GIT_TAG origin/main
-        DOWNLOAD_ONLY True
-)
-
-add_library(ifch_interface INTERFACE)
-target_include_directories(ifch_interface INTERFACE ${ifch_SOURCE_DIR})
-
-add_library(IconFontCppHeaders ALIAS ifch_interface)

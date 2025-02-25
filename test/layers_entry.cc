@@ -7,6 +7,7 @@
 #include <krog/entry.h>
 #include <krog/ui/layer.h>
 #include <krog/util/filesystem.h>
+#include <krog/ui/misc/carbon_icons.h>
 
 class TestLayer : public kr::Layer, public kr::Loggable {
  public:
@@ -34,6 +35,8 @@ class TestLayer : public kr::Layer, public kr::Loggable {
     if (th == 0) ImGui::TextUnformatted("System");
     if (th == 1) ImGui::TextUnformatted("Dark");
     if (th == 2) ImGui::TextUnformatted("Light");
+
+    ImGui::Text("%s Carbon Icons %s %s %s", CarbonIcons::ContainerImage::PushPull, CarbonIcons::ContainerImage::Push, CarbonIcons::ContainerImage::Pull, CarbonIcons::Function::Unnamed);
   }
 };
 

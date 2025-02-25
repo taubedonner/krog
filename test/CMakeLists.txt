@@ -20,10 +20,16 @@ target_link_libraries(krog_test_layers_exec PRIVATE Krog::Krog)
 set(DEP_TARGETS SDL3::SDL3 fmt::fmt spdlog::spdlog yaml-cpp)
 
 foreach (dep ${DEP_TARGETS})
-    list(APPEND DEP_TARGET_DLLS $<TARGET_FILE:${dep}>)
+    list(APPEND DEP_TARGET_BINARIES $<TARGET_FILE:${dep}>)
 endforeach ()
 
 add_custom_command(
     TARGET krog_test_layers_exec POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${DEP_TARGET_DLLS} ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${DEP_TARGET_BINARIES} ${CMAKE_CURRENT_BINARY_DIR}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+
+add_custom_command(
+        TARGET krog_test_layers_exec POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/Data"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/src/Data" "${CMAKE_CURRENT_BINARY_DIR}/Data"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

@@ -19,11 +19,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
     freopen("CON", "r", stdin);
   }
 
-  auto app = kr::CreateApp();
-  app->Run();
-  delete app;
-
-  return 0;
+  return main(__argc, __argv);
 }
 #pragma warning(pop)
 #endif

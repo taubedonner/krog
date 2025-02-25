@@ -7,9 +7,10 @@
 #include <fmt/format.h>
 #include <imgui_internal.h>
 
+#include "carbon_icons.h"
+#include "kr_assets.h"
 #include "krog/common.h"
-#include "ttf_codicon.h"
-#include "ttf_sfprotext.h"
+#include "krog/util/physstream.h"
 
 namespace ImGui {
 
@@ -157,42 +158,61 @@ void Init(float fontSize) {
 
   // Default font
 
-  static const ImWchar glyphRanges[] = {
-      0x0020, 0x00FF,  // Basic Latin + Latin Supplement
-      0x0100, 0x017F,  // Latin Extended-A
-      0x0180, 0x024F,  // Latin Extended-B
-      0x0370, 0x03FF,  // Greek and Coptic
-      0x0400, 0x052F,  // Cyrillic + Cyrillic Supplement
-      0x2DE0, 0x2DFF,  // Cyrillic Extended-A
-      0xA640, 0xA69F,  // Cyrillic Extended-B
-      0x2000, 0x206F,  // General Punctuation
-      0x2070, 0x209F,  // Superscripts and Subscripts
-      0x20A0, 0x20CF,  // Currency Symbols
-      0x2100, 0x214F,  // Letter-like Symbols
-      0x2150, 0x218F,  // Number Forms
-      0x2190, 0x21FF,  // Arrows
-      0x2200, 0x22FF,  // Mathematical Operators
-      0x2E00, 0x2E7F,  // Supplemental Punctuation
-      0xA720, 0xA7FF,  // Latin Extended-D
-      0xFFF0, 0xFFFF,  // Specials
-      0,
-  };
+  {
+    auto fontStream = PhysFileStream(ASSET_FONTS_SF_PRO_TEXT_REGULAR_OTF);
+    PHYSFS_sint64 fileSize = fontStream.getFileSize();
+    char* rawData = new char[fileSize];
+    fontStream.read(rawData, fileSize); // TODO: Add I/O error handling
 
-  ImFontConfig config;
-  io.Fonts->AddFontFromMemoryCompressedTTF(TTF_SFPROTEXT_compressed_data, TTF_SFPROTEXT_compressed_size, props.FontSize, &config, glyphRanges);
+    static const ImWchar glyphRanges[] = {
+        0x0020, 0x00FF,  // Basic Latin + Latin Supplement
+        0x0100, 0x017F,  // Latin Extended-A
+        0x0180, 0x024F,  // Latin Extended-B
+        0x0370, 0x03FF,  // Greek and Coptic
+        0x0400, 0x052F,  // Cyrillic + Cyrillic Supplement
+        0x2DE0, 0x2DFF,  // Cyrillic Extended-A
+        0xA640, 0xA69F,  // Cyrillic Extended-B
+        0x2000, 0x206F,  // General Punctuation
+        0x2070, 0x209F,  // Superscripts and Subscripts
+        0x20A0, 0x20CF,  // Currency Symbols
+        0x2100, 0x214F,  // Letter-like Symbols
+        0x2150, 0x218F,  // Number Forms
+        0x2190, 0x21FF,  // Arrows
+        0x2200, 0x22FF,  // Mathematical Operators
+        0x2E00, 0x2E7F,  // Supplemental Punctuation
+        0xA720, 0xA7FF,  // Latin Extended-D
+        0xFFF0, 0xFFFF,  // Specials
+        0,
+    };
 
-  ImFontConfig config2;
-  config2.MergeMode = true;
-  config2.GlyphOffset = {0.0f, 3.0f};
-  config2.GlyphMinAdvanceX = 16;
-  config2.GlyphMaxAdvanceX = 16;
-  static const ImWchar iconRanges[] = {ICON_MIN_CI, ICON_MAX_CI, 0};
-  fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryCompressedTTF(TTF_CODICON_compressed_data, TTF_CODICON_compressed_size, props.FontSize, &config2, iconRanges);
+    ImFontConfig config;
+    config.FontDataOwnedByAtlas = true;
+    io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize, &config, glyphRanges);
+  }
 
-  // Large font
-  ImFontConfig config3;
-  config3.GlyphOffset = {-1.0f, -2.0f};
-  fonts[(int)Font::Large] = io.Fonts->AddFontFromMemoryCompressedTTF(TTF_CODICON_compressed_data, TTF_CODICON_compressed_size, props.FontSize * 2.0f, &config3, iconRanges);
+  {
+    auto fontStream = PhysFileStream(ASSET_FONTS_CARBON_ICONS_TTF);
+    PHYSFS_sint64 fileSize = fontStream.getFileSize();
+    char* rawData = new char[fileSize];
+    fontStream.read(rawData, fileSize); // TODO: Add I/O error handling
+
+    ImFontConfig config2;
+    config2.MergeMode = true;
+    config2.GlyphOffset = {0.0f, 4.0f};
+    config2.RasterizerDensity = 1.5f;
+    config2.GlyphMinAdvanceX = 16;
+    config2.GlyphMaxAdvanceX = 16;
+    config2.FontDataOwnedByAtlas = true;
+    static const ImWchar iconRanges[] = {CarbonIcons::_GlyphMin, CarbonIcons::_GlyphMax, 0};
+    fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize + 2.0f, &config2, iconRanges);
+
+    // TODO: Fix multi-ownership for same memory block
+    // Large font
+//    ImFontConfig config3;
+//    config3.GlyphOffset = {-1.0f, -2.0f};
+//    config3.FontDataOwnedByAtlas = true;
+//    fonts[(int)Font::Large] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize * 2.0f, &config3, iconRanges);
+  }
 }
 
 void StyleColorsDark() {

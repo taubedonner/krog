@@ -6,11 +6,12 @@
 
 #include <glad/glad.h>
 
+#include "kr_assets.h"
 #include "krog/events/eventbus.h"
 #include "krog/ui/imguilayer.h"
-#include "krog/util/persistentconfig.h"
-
 #include "krog/util/filesystem.h"
+#include "krog/util/persistentconfig.h"
+#include "krog/util/physstream.h"
 
 namespace kr {
 Application::Application(const AppProps& props) {
@@ -20,6 +21,17 @@ Application::Application(const AppProps& props) {
   else windowConfig.Title = props.Title;
 
   m_Name = props.Name;
+
+  if (!PHYSFS_init(nullptr)) {
+    std::cerr << "Failed to init PhysicsFS" << std::endl;
+    exit(-1);
+  }
+
+  if (!PHYSFS_mount(KR_ARCHIVE_FILE, "/", 1)) {
+    PHYSFS_deinit();
+    std::cerr << "Failed to mount assets archive" << std::endl;
+    exit(-1);
+  }
 
   SetLogFilePath(GetAppDataPath());
   PersistentConfig::Init(GetAppDataPath().append("config.yml").string());
@@ -109,6 +121,8 @@ Application::~Application() {
   appNode["theme"] = theme;
 
   PersistentConfig::Save();
+
+  PHYSFS_deinit();
 }
 
 std::filesystem::path Application::GetAppDataPath() {

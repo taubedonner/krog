@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <IconsCodicons.h>
 #include <imgui.h>
 #include <implot.h>
 
