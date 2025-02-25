@@ -11,6 +11,7 @@ project(krog C CXX)
 option(KR_BUILD_TESTS "" ON)
 option(KR_USE_AV "Use FFmpeg-based tools (src/video)" OFF)
 set(KR_APP_NAME "App" CACHE STRING "App name displayed in log")
+set(KR_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 if(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
     set(KR_RUNTIME_OUTPUT_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")

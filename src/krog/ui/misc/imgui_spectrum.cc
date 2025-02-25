@@ -198,10 +198,10 @@ void Init(float fontSize) {
 
     ImFontConfig config2;
     config2.MergeMode = true;
-    config2.GlyphOffset = {0.0f, 4.0f};
+    config2.GlyphOffset = {0.5f, 3.0f};
     config2.RasterizerDensity = 1.5f;
-    config2.GlyphMinAdvanceX = 16;
-    config2.GlyphMaxAdvanceX = 16;
+    config2.GlyphMinAdvanceX = 18;
+    config2.GlyphMaxAdvanceX = 18;
     config2.FontDataOwnedByAtlas = true;
     static const ImWchar iconRanges[] = {CarbonIcons::_GlyphMin, CarbonIcons::_GlyphMax, 0};
     fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize + 2.0f, &config2, iconRanges);
