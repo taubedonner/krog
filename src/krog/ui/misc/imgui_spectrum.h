@@ -628,13 +628,6 @@ constexpr struct Darkest {
 
 struct Props {
   bool IsDark = true;
-  float FontSize = 0.0f;
-  ImVec2 Padding = {};
-  ImVec2 WindowPadding = {};
-
-  ImVec2 IconSize = {};
-  ImVec2 ButtonMinSize = {};
-
   [[nodiscard]] auto Color(uint32_t idx) const { return IsDark ? Colors::Darkest(idx) : Colors::Light(idx); }
 };
 

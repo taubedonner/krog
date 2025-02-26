@@ -2,7 +2,6 @@
 
 #include <physfs.h>
 
-#include <iostream>
 #include <memory>
 #include <streambuf>
 #include <vector>
@@ -15,9 +14,7 @@ class PhysStreamBuf : public std::streambuf {
 
   [[nodiscard]] bool is_open() const;
 
-  [[nodiscard]] PHYSFS_File* getFileHandle() const {
-    return file;
-  }
+  [[nodiscard]] PHYSFS_File* getFileHandle() const { return file; }
 
  protected:
   // Implement new data loading method

@@ -11,7 +11,6 @@
 #include "krog/ui/imguilayer.h"
 #include "krog/util/filesystem.h"
 #include "krog/util/persistentconfig.h"
-#include "krog/util/physstream.h"
 
 namespace kr {
 Application::Application(const AppProps& props) {
@@ -22,16 +21,13 @@ Application::Application(const AppProps& props) {
 
   m_Name = props.Name;
 
-  // TODO: Create wrappers for PhysFS
-  if (!PHYSFS_init(nullptr)) {
-    std::cerr << "Failed to init PhysicsFS" << std::endl;
-    exit(-1);
+  if (!kr::fs::PhysFSInit()) {
+    exit(-2);
   }
 
-  if (!PHYSFS_mount(KR_ARCHIVE_FILE, "/", 1)) {
-    PHYSFS_deinit();
-    std::cerr << "Failed to mount assets archive" << std::endl;
-    exit(-1);
+  if (!kr::fs::PhysFSMount(KR_ARCHIVE_FILE)) {
+    kr::fs::PhysFSDeInit();
+    exit(-2);
   }
 
   SetLogFilePath(GetAppDataPath());
@@ -123,7 +119,7 @@ Application::~Application() {
 
   PersistentConfig::Save();
 
-  PHYSFS_deinit();
+  kr::fs::PhysFSDeInit();
 }
 
 std::filesystem::path Application::GetAppDataPath() {

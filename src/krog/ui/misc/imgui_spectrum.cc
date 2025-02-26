@@ -150,12 +150,6 @@ void Init(float fontSize) {
 
   style.WindowTitleAlign = {0.5f, 0.5f};
 
-  props.FontSize = fontSize;
-  props.Padding = style.FramePadding;
-  props.WindowPadding = style.WindowPadding;
-  props.IconSize = {20.0f, props.FontSize};
-  props.ButtonMinSize = {((props.Padding.x) + props.IconSize.x), ((props.Padding.y * 2.0f) + props.IconSize.y)};
-
   // Default font
 
   {
@@ -187,7 +181,7 @@ void Init(float fontSize) {
 
     ImFontConfig config;
     config.FontDataOwnedByAtlas = true;
-    io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize, &config, glyphRanges);
+    io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, fontSize, &config, glyphRanges);
   }
 
   {
@@ -204,7 +198,7 @@ void Init(float fontSize) {
     config2.GlyphMaxAdvanceX = 16;
     config2.FontDataOwnedByAtlas = true;
     static const ImWchar iconRanges[] = {CarbonIcons::_GlyphMin, CarbonIcons::_GlyphMax, 0};
-    fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize + 2.0f, &config2, iconRanges);
+    fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, fontSize + 2.0f, &config2, iconRanges);
 
     // TODO: Fix multi-ownership for same memory block
     // Large font

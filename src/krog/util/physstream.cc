@@ -3,7 +3,6 @@
 PhysStreamBuf::PhysStreamBuf(const std::string &filePath) : file(nullptr), buffer_size(4096) {
   file = PHYSFS_openRead(filePath.c_str());
   if (!file) {
-    std::cerr << "Cannot open file: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     return;
   }
 
