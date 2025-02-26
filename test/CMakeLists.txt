@@ -30,6 +30,6 @@ add_custom_command(
 
 add_custom_command(
         TARGET krog_test_layers_exec POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/Data"
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${KR_RUNTIME_OUTPUT_DIR}/Data" "${CMAKE_CURRENT_BINARY_DIR}/Data"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/data"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${KR_RUNTIME_OUTPUT_DIR}/data" "${CMAKE_CURRENT_BINARY_DIR}/data"
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
