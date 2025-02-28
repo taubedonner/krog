@@ -34,7 +34,7 @@ set(HEADERS
         krog/util/threadwrapper.h
         krog/util/imageloader.h
         krog/util/filesystem.h
-        krog/util/physstream.h
+        krog/util/physfs.hpp
 
         krog/renderer/formats.h
         krog/renderer/window.h
@@ -59,7 +59,7 @@ set(SOURCES
         krog/util/framesynchronizer.cc
         krog/util/persistentconfig.cc
         krog/util/threadwrapper.cc
-        krog/util/physstream.cc
+        krog/util/physfs.cc
         krog/util/filesystem_common.cc
         $<$<BOOL:${WIN32}>:krog/util/filesystem_win32.cc>
         $<$<BOOL:${UNIX}>:krog/util/filesystem_unix.cc>

@@ -10,7 +10,7 @@
 #include "carbon_icons.h"
 #include "kr_assets.h"
 #include "krog/common.h"
-#include "krog/util/physstream.h"
+#include "krog/util/physfs.hpp"
 
 namespace ImGui {
 
@@ -153,8 +153,10 @@ void Init(float fontSize) {
   // Default font
 
   {
-    auto fontStream = PhysFileStream(ASSET_FONTS_SF_PRO_TEXT_REGULAR_OTF);
-    PHYSFS_sint64 fileSize = fontStream.getFileSize();
+    auto fontStream = PhysFS::ifstream(ASSET_FONTS_SF_PRO_TEXT_REGULAR_OTF);
+    fontStream.seekg(0, std::ios::end);
+    std::streamsize fileSize = fontStream.tellg();
+    fontStream.seekg(0, std::ios::beg);
     char* rawData = new char[fileSize];
     fontStream.read(rawData, fileSize); // TODO: Add I/O error handling
 
@@ -185,8 +187,10 @@ void Init(float fontSize) {
   }
 
   {
-    auto fontStream = PhysFileStream(ASSET_FONTS_CARBON_ICONS_TTF);
-    PHYSFS_sint64 fileSize = fontStream.getFileSize();
+    auto fontStream = PhysFS::ifstream(ASSET_FONTS_CARBON_ICONS_TTF);
+    fontStream.seekg(0, std::ios::end);
+    std::streamsize fileSize = fontStream.tellg();
+    fontStream.seekg(0, std::ios::beg);
     char* rawData = new char[fileSize];
     fontStream.read(rawData, fileSize); // TODO: Add I/O error handling
 
