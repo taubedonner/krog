@@ -628,7 +628,11 @@ constexpr struct Darkest {
 
 struct Props {
   bool IsDark = true;
-  [[nodiscard]] auto Color(uint32_t idx) const { return IsDark ? Colors::Darkest(idx) : Colors::Light(idx); }
+  [[nodiscard]] auto Color(uint32_t idx, float alpha = 1.0f) const {
+    auto color = IsDark ? Colors::Darkest(idx) : Colors::Light(idx);
+    color.w = alpha;
+    return color;
+  }
 };
 
 void ShowStyleEditor(bool* p_open);
