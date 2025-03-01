@@ -41,10 +41,8 @@ Application::Application(const AppProps& props) {
   int theme = static_cast<int>(ImGuiLayer::Theme::System);
   m_ImGuiLayer.SetTheme(static_cast<ImGuiLayer::Theme>(appNode["theme"].as<int>(theme)));
 
-  if (!windowConfig.IsFullscreen) {
-    windowConfig.Size.x = appNode["width"].as<int>(1600);
-    windowConfig.Size.y = appNode["height"].as<int>(900);
-  }
+  windowConfig.Size.x = appNode["width"].as<int>(1600);
+  windowConfig.Size.y = appNode["height"].as<int>(900);
 
   m_Window = std::make_unique<Window>(windowConfig);
 

@@ -48,6 +48,8 @@ class Window {
 
   void SetSize(int width, int height);
 
+  void AdaptSize();
+
   void SetFpsLimit(double fps, int swapInterval = 0);
 
   void SetTitle(const std::string &title);

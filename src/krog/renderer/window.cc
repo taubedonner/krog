@@ -40,7 +40,6 @@ Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSync
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
   auto windowFlags = (SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN);
-  if (m_WindowConfig.IsFullscreen) windowFlags |= SDL_WINDOW_FULLSCREEN;
 
   SDL_Window *window = SDL_CreateWindow(config.Title.c_str(), config.Size.x, config.Size.y, windowFlags);
   if (window == nullptr) {
@@ -49,7 +48,6 @@ Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSync
   }
   m_NativeWindow = window;
 
-  SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
   auto glContext = SDL_GL_CreateContext(window);
   SDL_GL_MakeCurrent(window, glContext);
 
@@ -69,6 +67,7 @@ Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSync
   KR_INFO("{:<16} {}", "OpenGL Renderer:", (char *)glGetString(GL_RENDERER));
 
   SetFpsLimit(config.FpsLimit, config.SwapInterval);
+  SetFullScreen(m_WindowConfig.IsFullscreen);
 
   SDL_ShowWindow(window);
 }
@@ -103,11 +102,15 @@ void Window::BeginUpdate() {
       EventBus::PushEvent<KeyReleaseEvent>(event);
     }
 
+    static bool dontTouchWSize = false;
+    if (event.type == SDL_EVENT_WINDOW_ENTER_FULLSCREEN) dontTouchWSize = true;
+    if (event.type == SDL_EVENT_WINDOW_LEAVE_FULLSCREEN) dontTouchWSize = false;
+
     if (event.type == SDL_EVENT_WINDOW_RESIZED) {
       auto &windowEvent = event.window;
 
       // TODO: Pass window ID to event payload
-      if (windowEvent.windowID == SDL_GetWindowID(m_NativeWindow)) {
+      if (windowEvent.windowID == SDL_GetWindowID(m_NativeWindow) && !dontTouchWSize) {
         m_WindowConfig.Size.x = windowEvent.data1;
         m_WindowConfig.Size.y = windowEvent.data2;
       }
@@ -139,9 +142,12 @@ int Window::GetHeight() const { return m_WindowConfig.Size.y; }
 
 void Window::SetFullScreen(bool set) {
   if (!m_NativeWindow) return;
-  if (SDL_SetWindowFullscreen(m_NativeWindow, (SDL_bool)set) == 0) {
+
+  if (SDL_SetWindowFullscreen(m_NativeWindow, (SDL_bool)set)) {
     m_WindowConfig.IsFullscreen = set;
   }
+
+  AdaptSize();
 }
 
 void Window::SetSize(int width, int height) {
@@ -163,6 +169,21 @@ void Window::SetFpsLimit(double fps, int swapInterval) {
   m_WindowConfig.FpsLimit = fps;
   SDL_GL_SetSwapInterval(swapInterval);
   m_FrameSynchronizer.SetFps(fps);
+}
+
+void Window::AdaptSize() {
+  if (!m_NativeWindow) return;
+
+  auto display = SDL_GetDisplayForWindow(m_NativeWindow);
+  auto windowSize = m_WindowConfig.Size;
+
+  if (SDL_Rect displayRect; SDL_GetDisplayBounds(display, &displayRect)) {
+    if ((windowSize.x + 32) >= displayRect.w) windowSize.x = (displayRect.w - 64);
+    if ((windowSize.y + 32) >= displayRect.h) windowSize.y = (displayRect.h - 64);
+  }
+
+  if (m_WindowConfig.Size != windowSize) (SetSize(windowSize.x, windowSize.y));
+  SDL_SetWindowPosition(m_NativeWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }
 
 WindowEventListener::~WindowEventListener() = default;
