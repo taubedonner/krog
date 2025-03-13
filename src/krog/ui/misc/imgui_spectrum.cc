@@ -231,7 +231,7 @@ void StyleColorsDark() {
   colors[ImGuiCol_TitleBg] = Darkest(GRAY100);
   colors[ImGuiCol_TitleBgActive] = Darkest(SEAFOAM200);
   auto titleBgCollapsed = Darkest(GRAY100);
-  titleBgCollapsed.w = 0.75;
+  titleBgCollapsed.Value.w = 0.75;
   colors[ImGuiCol_TitleBgCollapsed] = titleBgCollapsed;
   colors[ImGuiCol_MenuBarBg] = Darkest(GRAY100);
   colors[ImGuiCol_ScrollbarBg] = Darkest(GRAY75);
@@ -297,7 +297,7 @@ void StyleColorsLight() {
   colors[ImGuiCol_TitleBg] = Light(GRAY200);
   colors[ImGuiCol_TitleBgActive] = Light(GRAY300);
   auto titleBgCollapsed = Light(GRAY100);
-  titleBgCollapsed.w = 0.75;
+  titleBgCollapsed.Value.w = 0.75;
   colors[ImGuiCol_TitleBgCollapsed] = titleBgCollapsed;
   colors[ImGuiCol_MenuBarBg] = Light(GRAY100);
   colors[ImGuiCol_ScrollbarBg] = Light(GRAY75);
@@ -333,7 +333,7 @@ void StyleColorsLight() {
   colors[ImGuiCol_TableHeaderBg] = Light(GRAY100);
   colors[ImGuiCol_TableBorderStrong] = Light(GRAY400);
   auto tableBorderLight = Light(GRAY400);
-  tableBorderLight.w = 0.80f;
+  tableBorderLight.Value.w = 0.80f;
   colors[ImGuiCol_TableBorderLight] = tableBorderLight;
   colors[ImGuiCol_TableRowBg] = Light(GRAY200);
   colors[ImGuiCol_TableRowBgAlt] = Light(GRAY100);
