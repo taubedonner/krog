@@ -153,7 +153,7 @@ void Init(float fontSize) {
   // Default font
 
   {
-    auto fontStream = PhysFS::ifstream(ASSET_FONTS_SF_PRO_TEXT_REGULAR_OTF);
+    auto fontStream = PhysFS::ifstream(ASSET_FONTS_SF_PRO_TEXT_REGULAR_TTF);
     fontStream.seekg(0, std::ios::end);
     std::streamsize fileSize = fontStream.tellg();
     fontStream.seekg(0, std::ios::beg);
