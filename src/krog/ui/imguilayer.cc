@@ -32,7 +32,7 @@ void ImGuiLayer::OnAttach() {
 
   LoadIniSettingsFromDisk();
 
-  ImGui::Spectrum::Init();
+  ImGui::Spectrum::Init(16, 2.0f);
 
   UpdateTheme();
 

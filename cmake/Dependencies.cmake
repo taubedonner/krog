@@ -8,6 +8,10 @@ include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 
 set(BUILD_SHARED_LIBS ON)
 
+if(APPLE)
+    enable_language(OBJC)
+endif()
+
 #### FFmpeg ####
 if (KR_USE_AV)
     # Check for portable (or Windows) FFmpeg instillation paths
@@ -28,14 +32,6 @@ if (KR_USE_AV)
     endforeach ()
 endif ()
 
-#### yaml-cpp ####
-CPMAddPackage("gh:jbeder/yaml-cpp#0.8.0")
-
-if (NOT MSVC)
-    # Suppress YAML-CPP yak
-    target_compile_options(yaml-cpp PRIVATE "-Wno-#pragma-messages")
-endif ()
-
 #### Fmt ####
 CPMAddPackage("gh:fmtlib/fmt#10.1.0")
 
@@ -53,7 +49,14 @@ CPMAddPackage("gh:g-truc/glm#0.9.9.8")
 
 
 #### SDL3 ####
-CPMAddPackage("gh:libsdl-org/SDL#d3932b1ba2e8d3936095443b6692580659598175")
+CPMAddPackage(
+        NAME sdl
+        VERSION 3.0.0
+        GITHUB_REPOSITORY "libsdl-org/SDL"
+        GIT_TAG "d3932b1ba2e8d3936095443b6692580659598175"
+        OPTIONS
+            "SDL_DISABLE_UNINSTALL On"
+)
 
 
 #### Eventpp ####
@@ -80,6 +83,14 @@ CPMAddPackage(
             "PHYSFS_BUILD_SHARED Off"
             "PHYSFS_DISABLE_INSTALL On"
 )
+
+#### yaml-cpp ####
+CPMAddPackage("gh:jbeder/yaml-cpp#0.8.0")
+
+if (NOT MSVC)
+    # Suppress YAML-CPP yak
+    target_compile_options(yaml-cpp PRIVATE "-Wno-#pragma-messages")
+endif ()
 
 #### ImGui ####
 CPMAddPackage(

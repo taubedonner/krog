@@ -126,9 +126,11 @@ void ShowStyleEditor(bool *p_open) {
   }
 }
 
-void Init(float fontSize) {
+void Init(float fontSize, float displayScale) {
   auto &io = ImGui::GetIO();
   auto &style = ImGui::GetStyle();
+
+  props.DisplayScale = displayScale;
 
   style.FramePadding = {8.0f, 3.0f};
 
@@ -183,7 +185,7 @@ void Init(float fontSize) {
 
     ImFontConfig config;
     config.FontDataOwnedByAtlas = true;
-    io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, fontSize, &config, glyphRanges);
+    io.Fonts->AddFontFromMemoryTTF(rawData, static_cast<int>(fileSize), DpiAware(fontSize), &config, glyphRanges);
   }
 
   {
@@ -196,13 +198,13 @@ void Init(float fontSize) {
 
     ImFontConfig config2;
     config2.MergeMode = true;
-    config2.GlyphOffset = {0.5f, 3.0f};
-    config2.RasterizerDensity = 2.0f;
-    config2.GlyphMinAdvanceX = 16;
-    config2.GlyphMaxAdvanceX = 16;
+    config2.GlyphOffset = DpiAware({0.0f, 3.0f});
+    config2.RasterizerDensity = displayScale > 1.0f ? 1.0f : 2.0f;
+    config2.GlyphMinAdvanceX = DpiAware(fontSize + 3.0f);
+    config2.GlyphMaxAdvanceX = config2.GlyphMinAdvanceX;
     config2.FontDataOwnedByAtlas = true;
-    static const ImWchar iconRanges[] = {CarbonIcons::_GlyphMin, CarbonIcons::_GlyphMax, 0};
-    fonts[(int)Font::Default] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, fontSize + 2.0f, &config2, iconRanges);
+    static constexpr ImWchar iconRanges[] = {CarbonIcons::_GlyphMin, CarbonIcons::_GlyphMax, 0};
+    fonts[static_cast<int>(Font::Default)] = io.Fonts->AddFontFromMemoryTTF(rawData, static_cast<int>(fileSize), DpiAware(fontSize + 2.0f), &config2, iconRanges);
 
     // TODO: Fix multi-ownership for same memory block
     // Large font
@@ -211,6 +213,9 @@ void Init(float fontSize) {
 //    config3.FontDataOwnedByAtlas = true;
 //    fonts[(int)Font::Large] = io.Fonts->AddFontFromMemoryTTF(rawData, fileSize, props.FontSize * 2.0f, &config3, iconRanges);
   }
+
+  style.ScaleAllSizes(displayScale);
+  //io.FontGlobalScale = displayScale;
 }
 
 void StyleColorsDark() {

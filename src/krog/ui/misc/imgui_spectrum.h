@@ -621,6 +621,8 @@ constexpr struct Darkest {
 
 struct Props {
   bool IsDark = true;
+  float DisplayScale = 1.0f;
+
   [[nodiscard]] auto Color(const uint32_t idx, const float alpha = 1.0f) const {
     auto color = IsDark ? Colors::Darkest(idx) : Colors::Light(idx);
     color.Value.w = alpha;
@@ -630,7 +632,7 @@ struct Props {
 
 void ShowStyleEditor(bool* p_open);
 
-void Init(float fontSize = 16);
+void Init(float fontSize = 16, float displayScale = 1.0f);
 
 void StyleColorsLight();
 
@@ -639,6 +641,20 @@ void StyleColorsDark();
 const Props& GetProps();
 
 ImFont* GetFont(Font font);
+
+template <typename T>
+concept MultipliableWithReturnType = requires(T a, T b) {
+  { a * b } -> std::same_as<T>;
+};
+
+template <MultipliableWithReturnType T>
+T DpiAware(const T scalar) {
+  return scalar * GetProps().DisplayScale;
+}
+
+inline ImVec2 DpiAware(const ImVec2 scalar) {
+  return scalar * GetProps().DisplayScale;
+}
 
 }  // namespace Spectrum
 

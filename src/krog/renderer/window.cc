@@ -39,7 +39,7 @@ Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSync
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-  auto windowFlags = (SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN);
+  const auto windowFlags = (SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN | SDL_WINDOW_HIGH_PIXEL_DENSITY);
 
   SDL_Window *window = SDL_CreateWindow(config.Title.c_str(), config.Size.x, config.Size.y, windowFlags);
   if (window == nullptr) {
@@ -75,6 +75,11 @@ Window::Window(const WindowConfig &config) : m_WindowConfig(config), m_FrameSync
 Window::~Window() {
   SDL_DestroyWindow(m_NativeWindow);
   SDL_Quit();
+}
+
+float Window::GetDisplayScale() const {
+  if (!m_NativeWindow) return 1.0f;
+  return SDL_GetWindowDisplayScale(m_NativeWindow);
 }
 
 void Window::BeginUpdate() {

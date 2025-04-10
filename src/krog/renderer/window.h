@@ -58,6 +58,8 @@ class Window {
 
   double GetFpsLimit() const { return m_WindowConfig.FpsLimit; }
 
+  float GetDisplayScale() const;
+
   void BeginUpdate();
 
   void EndUpdate();
