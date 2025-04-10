@@ -32,11 +32,11 @@ void ImGuiLayer::OnAttach() {
 
   LoadIniSettingsFromDisk();
 
-  ImGui::Spectrum::Init(16, 2.0f);
+  ImGui::Spectrum::Init(16, GetApplication()->GetWindow()->GetDisplayScale());
 
   UpdateTheme();
 
-  const char* glsl_version = "#version 330 core";
+  const auto glsl_version = "#version 330 core";
   ImGui_ImplSDL3_InitForOpenGL(SDL_GL_GetCurrentWindow(), SDL_GL_GetCurrentContext());
   ImGui_ImplOpenGL3_Init(glsl_version);
 }
